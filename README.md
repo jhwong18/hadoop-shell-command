@@ -15,6 +15,13 @@ Useful Hadoop Shell Commands for HDFS
 - [chgrp, chown](#ch)
 - [du, df](#du)
 - [fsck](#fsck)
+- [touchz](#touchz)
+- [test, text, stat](#stat)
+- [usage, help](#help)
+- [chmod](#chmod)
+- [appendToFile](#append)
+- [count](#count)
+- [checksum, find, getmerge](#getmerge)
 
 ### -version
 <a name="version">
@@ -157,7 +164,7 @@ hdfs fsck <folder in HDFS> [ -move | -delete | -openforwrite] [-files [-blocks [
 
 | Options | Description |
 | :---: | :---: | 
-| <path> |	start checking from the path specified here |
+| path |	start checking from the path specified here |
 | -move	| It moves a corrupted file to the lost+found directory. |
 | -delete |	It deletes the corrupted files present in HDFS. |
 | -openforwrite |	It prints the files which are opened for write |
@@ -165,3 +172,102 @@ hdfs fsck <folder in HDFS> [ -move | -delete | -openforwrite] [-files [-blocks [
 | -blocks |	It prints out all the blocks of the file while checking. |
 | -locations |	It prints the location of all the blocks of files while checking. |
 | -racks |	It displays the network topology for DataNode locations. |
+
+
+
+### -touchz
+<a name="touchz">
+
+touchz creates an empty file of 0 bytes in HDFS
+
+```
+hadoop -fs -touchz <file name in HDFS>
+hadoop -fs -touchz /folder/file.txt
+hadoop -fs -touchz /folder/file
+```
+
+
+### -test, -text, -stat
+<a name="stat">
+
+test is used to test an HDFS file’s existence of zero length of the file or whether if it is a directory or not.
+text is used to display the zip file in text format. The allowed formats are zip and TextRecordInputStream.
+stat is used to print the information about file ‘test’ present in the dataflair directory of HDFS.
+
+```
+hadoop -fs -test -[defsz] <file name in HDFS>
+hadoop -fs -text <file name in HDFS>
+hadoop -fs -stat  %b /folder/file
+```
+
+| Options for -test| Description |
+| :---: | :---: | 
+|–d	| used to check whether if it is a directory or not, returns 0 if it is a directory |
+|–e |	used to check whether they exist or not, returns 0 if the exists|
+|–f |	used to check whether there is a file or not, returns 0 if the file exists|
+|–s |	used to check whether the file size is greater than 0 bytes or not, returns 0 if the size is greater than 0 bytes|
+|–z |	used to check whether the file size is zero bytes or not. If the file size is zero bytes, then returns 0 or else returns |
+
+| Options for -stat | Description |
+| :---: | :---: | 
+|%b | file size in bytes|
+|%g | group name of owner|
+|%n | file name|
+|%o |  block size|
+|%r  |  replication|
+|%u | user name of owner|
+|%y | modification date|
+
+
+### -usage, -help
+<a name="help">
+
+usage/help returns the help for an individual command.
+
+```
+hadoop -fs -help <command>
+hadoop -fs -usage <command>
+```
+
+### -chmod
+<a name="chmod">
+
+change permissions/mode of the file in HDFS 
+
+```
+hadoop -fs -chmod <file name in HDFS>
+```
+
+
+### -appendToFile
+<a name="append">
+
+appendToFile appends the localfile1, localfile2 present in the local filesystem into the a specified file on the HDFS filesystem.
+
+```
+hadoop fs -appendToFile <localfile1> <localfile2> <localfile3> <destination HDFS folder>
+```
+
+### -count
+<a name="count">
+
+count counts the number of files, directories, and bytes under the paths that matches the specified file pattern.
+
+```
+hadoop fs -count [options] <HDFS folder>
+```
+
+Options:
+-q –  shows quotas(quota is the hard limit on the number of names and amount of space used for individual directories)
+-u  –  it limits output to show quotas and usage only
+-h  –  shows sizes in a human-readable format
+-v  –  shows header line
+
+### -getmerge, -checksum, -find
+<a name="getmerge">
+
+```
+hadoop fs -getmerge <src> <localdest>
+hadoop fs -find <path> … <expression>
+hadoop fs -checksum <src>
+```
