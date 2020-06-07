@@ -18,26 +18,12 @@ Simple useful Linx/Unix Commands on Bash Terminal.
 - [cut](#cut)
 - [tr](#tr)
 - [sort](#sort)
+- [free](#free)
+- [top](#top)
+- [ps, kill](#ps)
 
 #### Operators 
 - [operators](#operators)
-
-- [copyToLocal, copyFromLocal](#local)
-
-- [get, put](#get)
-
-- [moveToLocal, moveFromLocal](#movelocal)
-- [expunge, setrep](#setrep)
-- [chgrp, chown](#ch)
-
-- [fsck](#fsck)
-
-- [test, text, stat](#stat)
-- [usage, help](#help)
-- [chmod](#chmod)
-- [appendToFile](#append)
-- [count](#count)
-- [checksum, find, getmerge](#getmerge)
 
 
 
@@ -245,3 +231,30 @@ operators in bash: |, ||, &, &&, >, >>
 | & |	Make the command run in the background |
 | && |	Execute the second command only if the first command succeeds |
 
+
+### -free
+<a name="free">
+finds out the amount of free space
+
+```
+free
+```
+
+### -top
+<a name="top">
+gives a real time dynamic view of the system
+
+```
+top
+```
+  
+
+### -ps, -kill
+<a name="ps">
+provides a snapshot of the current processes in the system
+kill a process
+  
+```
+ps
+kill
+```
