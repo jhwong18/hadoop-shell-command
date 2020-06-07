@@ -1,5 +1,13 @@
 ## Hadoop shell commands (HDFS)
-Useful Hadoop Shell Commands for HDFS
+Useful Hadoop Shell Commands for HDFS. To refer to any file system use:
+```
+hadoop fs
+```
+
+To refer to hadoop distributed file system, use:
+```
+hdfs dfs 
+```
 
 ### Table of Contents
 - [version](#version)
@@ -23,6 +31,13 @@ Useful Hadoop Shell Commands for HDFS
 - [count](#count)
 - [checksum, find, getmerge](#getmerge)
 
+#### HDFS Admin Commands
+- [dfsadmin](#admin)
+- [datanode](#datanode)
+- [namenode](#secondarynamenode)
+- [balancer](#balancer)
+
+
 ### -version
 <a name="version">
 To get the hadoop version
@@ -45,6 +60,7 @@ To list all the folders or files in HDFS. -R to list the files recursively acros
   
 ```
 hadoop fs -ls 
+hadoop fs -ls /user/cloudera
 hadoop fs -ls /
 hadoop fs -ls -R
 hadoop fs -ls -R /folder_name
@@ -142,10 +158,10 @@ hadoop fs -chown <owner name> <folder in HDFS>
   
 ### -du, -df
 <a name="du">
-du (Development Unit) changes the group of the folder in HDFS
+du (Disk Usage) changes the group of the folder in HDFS. -s prints out the summary of disk usage in the folder.
 df (Disk Free) changes the owner of the folder in HDFS
 ```
-hadoop fs -du <folder in HDFS>
+hadoop fs -du -s <folder in HDFS>
 hadoop fs -du
 hadoop fs -du /folder 
 hadoop fs -df <folder in HDFS>
@@ -160,6 +176,7 @@ fsck (File System Check) check the health of the files in directory present in H
 
 ```
 hdfs fsck <folder in HDFS> [ -move | -delete | -openforwrite] [-files [-blocks [-locations | -racks]]]
+hdfs fsck -files 
 ```
 
 | Options | Description |
@@ -168,7 +185,7 @@ hdfs fsck <folder in HDFS> [ -move | -delete | -openforwrite] [-files [-blocks [
 | -move	| It moves a corrupted file to the lost+found directory. |
 | -delete |	It deletes the corrupted files present in HDFS. |
 | -openforwrite |	It prints the files which are opened for write |
-| -files |	It prints the files being checked. |
+| -files |	It prints the files being checked. Only checks the files instead of the blocks. |
 | -blocks |	It prints out all the blocks of the file while checking. |
 | -locations |	It prints the location of all the blocks of files while checking. |
 | -racks |	It displays the network topology for DataNode locations. |
@@ -271,3 +288,51 @@ hadoop fs -getmerge <src> <localdest>
 hadoop fs -find <path> … <expression>
 hadoop fs -checksum <src>
 ```
+
+
+- [datanode](#count)
+- [namenode](#getmerge)
+
+### dfsadmin
+<a name="admin">
+dfsadmin -report gives the report on the HDFS cluster
+dfsadmin -report -files
+dfsadmin -report -refreshNodes helps to decommission and commission of nodes 
+  
+```
+hdfs dfsadmin
+hdfs dfsadmin -report
+hdfs dfsadmin -report -files
+hdfs dfsadmin -report -refreshNodes 
+```
+
+### balancer
+<a name="balancer">
+balancer helps to re-organize the number of blocks that each datanode should run on. It should be used when a new node is added or an existing node is decommissioned.  
+  
+```
+hdfs balancer [-threshold <threshold>]
+hdfs balancer -threshold 20
+```
+
+### datanode
+<a name="datanode">
+Helps to restart the datanodes in HDFS. -rollback to return to the previous version.
+  
+```
+hdfs datanode
+hdfs datanode -rollback
+```
+
+### secondarynamenode
+<a name="secondarynamenode">
+To run the secondary NameNode. 
+  
+```
+hdfs secondarynamenode
+```
+| Options | Description |
+| :---: | :---: | 
+|-checkpoint|	a checkpoint on the secondary NameNode is performed if the size of the EditLog is greater than or equal to fs.checkpoint.size|
+|-force	| a checkpoint is performed regardless of the EditLog size;|
+|–geteditsize|	EditLog size is displayed|
