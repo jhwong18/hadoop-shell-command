@@ -289,10 +289,6 @@ hadoop fs -find <path> … <expression>
 hadoop fs -checksum <src>
 ```
 
-
-- [datanode](#count)
-- [namenode](#getmerge)
-
 ### dfsadmin
 <a name="admin">
 dfsadmin -report gives the report on the HDFS cluster
