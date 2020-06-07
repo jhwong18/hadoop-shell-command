@@ -240,8 +240,8 @@ operators in bash: |, ||, &, &&, >, >>
 | :---: | :---: | 
 | > |	overwrites the file if it exists or create the file if it doesnt |
 | >>	| appends to the file or create the file if it doesnt |
-| '|' |	It deletes the corrupted files present in HDFS. |
-| '||'|	Execute the second command only if the first command fails |
+| '\|' |	It deletes the corrupted files present in HDFS. |
+| '\|\|' |	Execute the second command only if the first command fails |
 | & |	Make the command run in the background |
 | && |	Execute the second command only if the first command succeeds |
 
