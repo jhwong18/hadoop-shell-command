@@ -64,6 +64,7 @@ version
 #### table_help
 <a name="table_help">
 table_help command will show:
+  
   - What and how to use table-referenced commands
   - It will provide different HBase shell command usages and its syntaxes
   - It will give table manipulations commands like put, get and all other commands information.
@@ -76,6 +77,7 @@ table_help
 <a name="whoami">
 This command "whoami" is used to return the current HBase user information from the HBase cluster.
 It will provide information like:
+  
   - Groups present in HBase
   - The user name 
   
@@ -97,6 +99,7 @@ create 'notifications', 'attributes', 'metrics'
 #### List
 <a name="List">
 "List" command will display:
+  
   - all the tables that are present or created in HBase
   - The output showing in above screen shot is currently showing the existing tables in HBase
   - We can filter output values from tables by passing optional regular expression parameters
@@ -108,6 +111,7 @@ list
 #### Describe
 <a name="Describe">
 "Describe" command describes the named table:
+  
   - It will give more information about column families present in the mentioned table
   - In our case, it gives the description about table "education."
   - It will give information about table name with column families, associated filters, versions and some more details.
@@ -120,10 +124,12 @@ describe <tablename>
 #### Disable, Disable_all
 <a name="Disable">
 Disable:
+  
   - This command will start disabling the named table
   - If table needs to be deleted or dropped, it has to disable first
   
 Disable_all:
+
   - This command will disable all the tables matching the given regex.
   - The implementation is same as delete command (Except adding regex for matching)
   - Once the table gets disable the user can able to delete the table from HBase
@@ -229,13 +235,6 @@ Through this command, you can get the status of the alter command, which indicat
 ```
 alter_status <tablename>
 ```
-
-
-- [Put](#Put)
-- [Get](#Get)
-- [Delete, Delete all](#Delete)
-- [Truncate](#Truncate)
-- [Scan](#Scan)
 
 #### Data manipulation commands
 #### Count
