@@ -270,9 +270,9 @@ It will optionally coordinate time stamp.
 - Here we are placing values into table "guru99" under row r1 and column c1
 
 ```
-put <'tablename'>,<'rowname'>,<'columnvalue'>,<'value'>
-put 'guru99', 'r1', 'c1', 'value', 10
-g.put 'guru99', 'r1', 'c1', 'value', 10
+put <'tablename'>,<'rowname'>,<'attribute:columnname'>,<'value'>
+put 'guru99', 'r1', 'c1:value', 10
+g.put 'guru99', 'r1', 'c1:value', 10
 
 ```
 
@@ -280,6 +280,7 @@ g.put 'guru99', 'r1', 'c1', 'value', 10
 #### Get
 <a name="Get">
 Here <Additional Parameters> include:
+  
   - TIMERANGE
   - TIMESTAMP
   - VERSIONS
