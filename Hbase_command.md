@@ -372,3 +372,7 @@ For adding and removing peers to cluster and to start and stop replication these
 | remove_peer | Stops the defined replication stream. Deletes all the metadata information about the peer | hbase> remove_peer '1' |
 | start_replication | Restarts all the replication features | hbase> start_replication |
 | stop_replication | Stops all the replication features | hbase>stop_replication |
+
+
+### Resources
+Different types of filter parameters: https://acadgild.com/blog/different-types-of-filters-in-hbase-shell
