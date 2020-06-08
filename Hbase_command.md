@@ -19,7 +19,7 @@ hbase(main):001:0>
 - [List](#List)
 - [Describe](#Describe)
 - [Disable, Disable_all](#Disable)
-- [Enable, Enable_all](#Enable)
+- [Enable](#Enable)
 - [Drop, Drop_all](#Drop)
 - [Show_filters](#Show_filters)
 - [Alter, Alter_status](#Alter)
@@ -42,7 +42,7 @@ hbase(main):001:0>
 
 
 #### General commands
-##### status
+#### status
 <a name="status">
 status command will give details about the system status like a number of servers present in the cluster, active server count, and average load value. The parameters can be 'summary', 'simple', or 'detailed', the default parameter provided is "summary".
   
@@ -53,7 +53,7 @@ status 'summary'
 status 'detailed'
 ```
 
-##### version
+#### version
 <a name="version">
 version command will display the currently used HBase version in command mode
 
@@ -61,7 +61,7 @@ version command will display the currently used HBase version in command mode
 version
 ```
 
-##### table_help
+#### table_help
 <a name="table_help">
 table_help command will show:
   - What and how to use table-referenced commands
@@ -72,7 +72,7 @@ table_help command will show:
 table_help
 ```
 
-##### whoami
+#### whoami
 <a name="whoami">
 This command "whoami" is used to return the current HBase user information from the HBase cluster.
 It will provide information like:
@@ -84,7 +84,7 @@ whoami
 ```
 
 #### Data Definition commands
-##### Create
+#### Create
 <a name="Create">
 Create command creates a table in HBase with the specified name given according to the dictionary or specifications as per column family.
   
@@ -94,7 +94,7 @@ create 'notifications', 'attributes', 'metrics'
 ```
 
 
-##### List
+#### List
 <a name="List">
 "List" command will display:
   - all the tables that are present or created in HBase
@@ -105,7 +105,7 @@ create 'notifications', 'attributes', 'metrics'
 list
 ```
 
-##### Describe
+#### Describe
 <a name="Describe">
 "Describe" command describes the named table:
   - It will give more information about column families present in the mentioned table
@@ -117,7 +117,7 @@ describe <tablename>
 ```
 
 
-##### Disable, Disable_all
+#### Disable, Disable_all
 <a name="Disable">
 Disable:
   - This command will start disabling the named table
@@ -131,7 +131,29 @@ Disable_all:
 
 ```
 disable <tablename>
+disable_all <"matching regex">
 ```
+
+
+#### Enable
+<a name="Enable">
+Enable:
+  - This command will start enabling the named table
+  - Whichever table is disabled, to retrieve back to its previous state we use this command
+  - If a table is disabled in the first instance and not deleted or dropped, and if we want to re-use the disabled table then we have to enable it by using this command.
+ 
+
+```
+enable <tablename>
+```
+
+#### Show_filters
+<a name="Show_filters">
+This command displays all the filters present in HBase like ColumnPrefix Filter, TimestampsFilter, PageFilter, FamilyFilter, etc.
+```
+show_filters
+```
+
 
 | Options for -test| Description |
 | :---: | :---: | 
