@@ -151,6 +151,7 @@ hadoop fs -setrep 3 /folder
 <a name="ch">
 chgrp changes the group of the folder in HDFS
 chown changes the owner of the folder in HDFS
+
 ```
 hadoop fs -chgrp <new name of group> <folder in HDFS>
 hadoop fs -chown <owner name> <folder in HDFS>
@@ -160,6 +161,7 @@ hadoop fs -chown <owner name> <folder in HDFS>
 <a name="du">
 du (Disk Usage) changes the group of the folder in HDFS. -s prints out the summary of disk usage in the folder.
 df (Disk Free) changes the owner of the folder in HDFS
+
 ```
 hadoop fs -du -s <folder in HDFS>
 hadoop fs -du
