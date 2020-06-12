@@ -156,7 +156,8 @@ chown changes the owner of the folder in HDFS
 hadoop fs -chgrp <new name of group> <folder in HDFS>
 hadoop fs -chown <owner name> <folder in HDFS>
 ```
-  
+ 
+### Managing HDFS Storage
 ### -du, -df
 <a name="du">
 du (Disk Usage) changes the group of the folder in HDFS. -s prints out the summary of disk usage in the folder.
@@ -303,6 +304,51 @@ hdfs dfsadmin -report
 hdfs dfsadmin -report -files
 hdfs dfsadmin -report -refreshNodes 
 ```
+To set a quota for the number of files in a directory 
+
+```
+hdfs dfsadmin -setQuota <#number> <dir>
+hdfs dfsadmin -setQuota 10 /sample_folder
+```
+To set a space quota on a directory
+
+Size symbols:
+  - b: bytes
+  - m: megabytes
+  - g: gigabytes
+  - t: terabytes
+  - p: petrabytes
+
+```
+hdfs dfsadmin -setSpaceQuota <#size b/m/g/p> <dir>
+hdfs dfsadmin -setQuota 10 /sample_folder
+```
+To clear the space quota on a directory
+
+```
+hdfs dfsadmin -clrSpaceQuota <dir>
+hdfs dfsadmin -clrSpaceQuota /sample_folder
+```
+To check the status on a directory
+
+```
+hdfs dfsadmin -count -q <dir>
+hdfs dfsadmin -count -q /sample_folder
+```
+
+This is what each of the columns stands for:
+
+| Options | Description |
+| :---: | :---: | 
+|QUOTA|  Limit on the files and directories| 
+|REMAINING_QUOTA| Remaining number of files and directories in the quota that can be created by this user| 
+|SPACE_QUOTA| Space quota granted to this user| 
+|REMAINING_SPACE_QUOTA| Space quota remaining for this user| 
+|DIR_COUNT| The number of directories| 
+|FILE_COUNT| The number of files| 
+|CONTENT_SIZE| The file sizes| 
+|PATH_NAME| The path for the directories| 
+
 
 ### balancer
 <a name="balancer">
