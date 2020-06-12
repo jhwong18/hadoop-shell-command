@@ -38,6 +38,13 @@ hdfs dfs
 - [balancer](#balancer)
 
 
+#### HDFS Admin Tasks
+- [Checking Cluster Health](#clusterhealth)
+- [datanode](#datanode)
+- [namenode](#secondarynamenode)
+- [balancer](#balancer)
+
+
 ### -version
 <a name="version">
 To get the hadoop version
@@ -380,3 +387,118 @@ hdfs secondarynamenode
 |-checkpoint|	a checkpoint on the secondary NameNode is performed if the size of the EditLog is greater than or equal to fs.checkpoint.size|
 |-force	| a checkpoint is performed regardless of the EditLog size;|
 |–geteditsize|	EditLog size is displayed|
+
+
+
+
+
+
+
+### HDFS Admin Tasks
+### Checking Cluster Health
+<a name="clusterhealth">
+
+ - How to check a hadoop cluster healthy status
+ - How do I know if my cluster is healthy or not? Here are some ways to help you do your daily maintenance tasks.
+
+```
+HDFS dfsadmin -report
+```
+
+The command tells you the HDFS cluster overall status and each namenode/datanode status.
+
+```
+$ hdfs dfsadmin -report
+Configured Capacity: 94569229647872 (86.01 TB)
+Present Capacity: 94523463725056 (85.97 TB)
+DFS Remaining: 94047151382528 (85.54 TB)
+DFS Used: 476312342528 (443.60 GB)
+DFS Used%: 0.50%
+Under replicated blocks: 0
+Blocks with corrupt replicas: 0
+Missing blocks: 0
+Missing blocks (with replication factor 1): 3
+...
+```
+
+
+#### NameNode WebUi Check
+From the NameNode WebUI, determine if all NameNodes and DataNodes are up and running.
+
+```
+http://<namenode>:<namenodeport>
+http://127.0.0.1://50070
+```
+
+Default port is 50070, for other default ports, see Hadoop Ports reference
+
+#### NameNode healthy
+
+```
+http://<namenode>:50070/dfshealth.html#tab-overview
+```
+
+#### DataNode healthy
+
+```
+http://<namenode>:50070/dfshealth.html#tab-datanode
+```
+
+#### DataNode Volume failure
+
+```
+http://<namenode>:50070/dfshealth.html#tab-datanode-volume-failures
+```
+
+You can also check snapshot status, cluster startup status etc..
+
+If you are on a highly available HDFS cluster, go to the StandbyNameNode web UI to see if all DataNodes are up and running:
+
+```
+    http://<standbynamenode>:<namenodeport>
+```
+
+If you are not on a highly available HDFS cluster, go to the SecondaryNameNode web UI to see if it the secondary node is up and running:
+
+```
+    http://<secondarynamenode>:<secondarynamenodeport>
+```
+
+#### Check namespace by listing directories.
+If you worry about namespace consistency, then you can scan some directories and check
+
+```
+$ hdfs dfs -ls -R / > dfs.flst
+```
+
+Note: Be careful and watch namenode load if your cluster is large scale
+
+
+#### Verify that read and write to hdfs works successfully.
+You can easily check if your cluster is working or not by writing/reading files
+
+```
+$ hdfs dfs -put [input file] [output file]
+$ hdfs dfs -cat [output file]
+```
+For more files and directories manipulation, see Use command line to manage files and directories in HDFS
+
+
+#### Fsck HDFS filesystem see if it is healthy.
+Run the fsck command on namenode as $HDFS_USER:
+
+```
+$ hdfs fsck / -files -blocks -locations > dfs-fsck.log
+```
+
+You should see feedback that the **filesystem under path / is HEALTHY**.
+
+#### Fsck compare before and after cluster upgrade
+After cluster upgrade, if you are concerned the consistency and integration of HDFS namespace, you can always run fsck and ls -R before and after upgrade, then compare and verify that user files exist after upgrade.
+
+The file names are listed below:
+
+```
+$ diff    dfs-old-fsck.log dfs-new-fsck.log
+$ diff   dfs-old-flst dfs-new-flst
+```
