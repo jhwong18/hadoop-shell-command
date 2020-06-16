@@ -6,6 +6,8 @@ Basic Hadoop Administrative tasks and the corresponding commands.
 
 ##### Memory
 - [Maintain memory in OS Space (Logs space and deleting old logs)](#OSspace)
+- [CPU Utilization](#cpu)
+
 
 ##### Hadoop
 - [Monitor Cluster Health in Hadoop](#hadoop)
@@ -108,7 +110,82 @@ The steps to resolve low Logical Disk Free Space:
   cd /tmp/
   find -type f -name '*text*' -delete  # Remove all files with specific text
   ```
+
+  4) Run the disk free command to check the free space in the respective folders
   
+  ```
+  df -hT /opt/
+  df -hT /tmp/
+  free -h
+  ```
+
+
+
+
+
+#### CPU Utilization
+<a name="cpu">
+  
+A common issue encountered would be a high CPU utilization. The first step is to check the current CPU utilization
+
+```
+iostat -c 
+```
+
+**Enable CPU Scheduling in** `capacity-scheduler.xml`
+
+CPU scheduling is not enabled by default. To enable the CPU Scheduling, set the following property in the /etc/hadoop/conf/capacity-scheduler.xml file on the ResourceManager and NodeManager hosts:
+
+Replace the `DefaultResourceCalculator` with the `DominantResourceCalculator`.
+
+Property:`yarn.scheduler.capacity.resource-calculator`
+
+Value: `org.apache.hadoop.yarn.util.resource.DominantResourceCalculator`
+
+```
+<property>
+ <name>yarn.scheduler.capacity.resource-calculator</name>
+ <!-- <value>org.apache.hadoop.yarn.util.resource.DefaultResourceCalculator</value> -->
+ <value>org.apache.hadoop.yarn.util.resource.DominantResourceCalculator</value>
+</property>
+```
+
+**Set Vcores in yarn-site.xml**
+
+In YARN, vcores (virtual cores) are used to normalize CPU resources across the cluster. The `yarn.nodemanager.resource.cpu-vcores` value sets the number of CPU cores that can be allocated for containers.
+
+The number of vcores should be set to match the number of physical CPU cores on the NodeManager hosts. Set the following property in the /etc/hadoop/conf/yarn-site.xml file on the ResourceManager and NodeManager hosts:
+
+Property: `yarn.nodemanager.resource.cpu-vcores`
+
+Value: <number_of_physical_cores>
+
+Example:
+
+```
+<property>
+ <name>yarn.nodemanager.resource.cpu-vcores</name>
+<value>16</value>
+</property>
+It is also recommended that you enable CGroups along with CPU scheduling. CGroups are used as the isolation mechanism for CPU processes. With CGroups strict enforcement turned on, each CPU process gets only the resources it asks for. Without CGroups turned on, the DRF scheduler attempts to balance the load, but unpredictable behavior may occur.
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /opt, /tmp, /var/log, /var/lib
 
