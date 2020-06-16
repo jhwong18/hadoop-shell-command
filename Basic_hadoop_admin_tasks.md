@@ -17,6 +17,7 @@ Basic Hadoop Administrative tasks and the corresponding commands.
 
 ##### Hbase
 - [Monitor Hbase Master UI](#hbase)
+- [Finding log files in OpenTSDB](#hbaselog)
 - [Region Servers Health check](#regionservers)
 
 ##### OpenTSDB
@@ -301,10 +302,9 @@ Tuning of OpenTSDB for HBase Storage. These are parameters to look at for using 
   
   
 ### Hbase
-### Monitor Hbase Master UI
 <a name="hbase">
 
-#### To start, stop, restart services
+### To start, stop, restart services
 
 ```
 sudo service hadoop-hbase-regionserver stop
@@ -317,5 +317,39 @@ sudo service hbase-master stop
 sudo service hbase-master start
 sudo service hbase-master restart
 ```
-- [Region Servers Health check](#regionservers)
 
+### Monitor Hbase Master Web UI
+
+To access to the HBase Master Web UI, ensure that your hbase-master service is running. Next, enter the following url:
+
+```
+http://quickstart.cloudera:60010
+```
+
+The HBase Master web UI shows:
+	- the number of requests per second being served by each of the RegionServers
+	- the number of regions that are online on the RegionServers, and the used and max heap.
+
+This is a useful place to start when you’re trying to find out the state of the system. Often, you can find issues here when RegionServers have fallen over, aren’t balanced in terms of the regions and requests they’re serving, or are misconfigured to use less heap than you had planned to give them.
+
+
+
+### Finding log files in HBase
+
+From this Master Web UI, we can access the log files, by clicking on the logs section and open the log file `var/log/hbase/hbase-hbase-master-quickstart.cloudera.log`. Alternatively, you can access the logs file via
+`var/log/hbase/hbase-hbase-master-quickstart.cloudera.log` (for HMaster)
+
+
+The key process logs are as follows (replace <user> with the user that started the service, and <hostname> for the machine name)
+
+	- NameNode: $HADOOP_HOME/logs/hadoop-<user>-namenode-<hostname>.log
+
+	- DataNode: $HADOOP_HOME/logs/hadoop-<user>-datanode-<hostname>.log
+
+	- JobTracker: $HADOOP_HOME/logs/hadoop-<user>-jobtracker-<hostname>.log
+
+	- TaskTracker: $HADOOP_HOME/logs/hadoop-<user>-tasktracker-<hostname>.log
+ 
+	- HMaster: $HBASE_HOME/logs/hbase-<user>-master-<hostname>.log
+
+	- RegionServer: $HBASE_HOME/logs/hbase-<user>-regionserver-<hostname>.log
