@@ -167,14 +167,14 @@ wc 'this' filename.txt
 
 ### -grep
 <a name="grep">
-wc helps to find any line that matches a specified patter in the file
+grep helps to find any line that matches a specified patter in the file
 -c: number of characters
 -l: number of lines
   
 ```
-wc <file name 1> <file name 2> <file name 3>
-wc -c <file name 1> <file name 2> <file name 3>
-wc -l <file name 1> <file name 2> <file name 3>
+grep <file name 1> <file name 2> <file name 3>
+grep -c <file name 1> <file name 2> <file name 3>
+grep -l <file name 1> <file name 2> <file name 3>
 ```
 
 
