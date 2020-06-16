@@ -23,6 +23,8 @@ Simple useful Linx/Unix Commands on Bash Terminal.
 - [ps, kill](#ps)
 - [hostname](#host)
 - [free](#free)
+- [iostat](#iostat)
+
 
 #### Operators 
 - [operators](#operators)
@@ -341,4 +343,22 @@ free -m
 free -c
 free -o
 free -s 3 -c 3
+```
+
+
+### -iostat
+<a name="iostat">
+iostat command generates three types of reports, the CPU Utilization report, the Device Utilization report and the Network Filesystem report.
+
+-c
+Display the CPU utilization report.
+-d
+Display the device utilization report.
+-h
+Make the NFS report displayed by option -n easier to read by a human.
+
+```
+iostat
+iostat -c 
+iostat -c -h
 ```
