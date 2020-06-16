@@ -21,6 +21,7 @@ Simple useful Linx/Unix Commands on Bash Terminal.
 - [free](#free)
 - [top](#top)
 - [ps, kill](#ps)
+- [hostname](#host)
 
 #### Operators 
 - [operators](#operators)
@@ -257,4 +258,28 @@ kill a process
 ```
 ps
 kill
+```
+
+
+### -hostname
+<a name="host">
+hostname command in Linux is used to obtain the DNS(Domain Name System) name and set the system’s hostname or NIS(Network Information System) domain name. A hostname is a name which is given to a computer and it attached to the network. Its main purpose is to uniquely identify over a network.
+  
+-a : This option is used to get alias name of the host system(if any).
+-A : This option is used to get all FQDNs(Fully Qualified Domain Name) of the host system.
+-b : Used to always set a hostname. Default name is used if none specified
+-d : This option is used to get the Domain if local domains are set. It will not return anything(not even a blank line) if no local domain is set.
+-f : This option is used to get the Fully Qualified Domain Name(FQDN). It contains short hostname and DNS domain name
+-F : This option is used to set the hostname specified in a file. Can be performed by the superuser(root) only.
+-i option:This option is used to get the IP(network) addresses
+
+```
+hostname -a 
+hostname -A
+hostname -b 
+hostname -d 
+hostname -f 
+hostname -F 
+hostname -i 
+sudo hostname NEW_HOSTNAME
 ```
