@@ -5,9 +5,10 @@ Basic Hadoop Administrative tasks and the corresponding commands.
 #### Hadoop Tasks
 
 ##### Memory
-- [Maintain memory in OS Space (Logs space and deleting old logs)](#OSspace)
+- [Maintain Disk free space in OS Space (Logs space and deleting old logs)](#OSspace)
 - [CPU Utilization](#cpu)
-
+- [Memory Utilization](#memory)
+- [Low Swap Space](#swap)
 
 ##### Hadoop
 - [Monitor Cluster Health in Hadoop](#hadoop)
@@ -19,7 +20,10 @@ Basic Hadoop Administrative tasks and the corresponding commands.
 - [Region Servers Health check](#regionservers)
 
 ##### OpenTSDB
-- [Check Data loading in OpenTSDB](#opentsdb)
+- [Monitor Stats and Data loading in OpenTSDB](#opentsdb)
+- [Finding log files in OpenTSDB](#tsdblog)
+- [Check Connection between OpenTSDB and Hbase](#tsdbconnection)
+
 
 ##### YARN
 - [Yarn Resource Manager UI - Job monitoring](#yarn)
@@ -39,7 +43,7 @@ Basic Hadoop Administrative tasks and the corresponding commands.
 
 
 
-#### Maintain memory in OS Space (Logs space and deleting old logs)
+### Maintain disk free space in OS Space (Logs space and deleting old logs)
 <a name="OSspace">
 With the usage of Hadoop platforms and services, various issues regarding lack of memory space may occur in the servers:
 - Logical Disk Free space is too low
@@ -122,8 +126,7 @@ The steps to resolve low Logical Disk Free Space:
 
 
 
-
-#### CPU Utilization
+### CPU Utilization
 <a name="cpu">
   
 A common issue encountered would be a high CPU utilization. The first step is to check the current CPU utilization
@@ -173,352 +176,125 @@ It is also recommended that you enable CGroups along with CPU scheduling. CGroup
 
 
 
+### Low Swap Space
+<a name="swap">
+
+To check the Swap space, use the free command 
+
+```
+free
+```
+
+To reduce usage of swap space, you can minimize usage of swap by playing with swappiness. You can get current value with command:
+
+```
+cat /proc/sys/vm/swappiness
+```
+
+If you want to change it edit `/etc/sysctl.conf` and add line like
+
+```
+vm.swappiness = 1
+```
+
+(by Cloudera recommendations) and execute
+```
+sysctl -p 
+```
+
+Swap space can be added by creating a swap file or by increasing the amount of the swap partition. Provided the amount of available hard disk space above, we can proceed to the creation of our swap file which we will call myswapfile (with 1G of size). It will be located under root / directory . We will be using the fallocate program which will create a file with the desired size. 
+
+Run the command below :
+
+```
+sudo fallocate -l 1G /myswapfile
+sudo dd if=/dev/zero of=/myswapfile bs=1024 count=1048576    # If fallocate is not installed on your system
+sudo chmod 600 /mnt/myswapfile
+sudo mkswap /myswapfile
+sudo swapon /myswapfile
+cat /proc/swaps   # check if newly added swap file is now available
+```
 
 
 
 
+### Start, Stop, Restart Service
+<a name="restart">
+
+To list all the services, use the following command:
+
+```
+ls /etc/init.d
+```
+
+```
+sudo service <name of service> start
+sudo service <name of service> stop
+sudo service <name of service> restart
+```
+
+
+##### OpenTSDB
+### Monitor Stats and Data loading in OpenTSDB
+<a name="opentsdb">
+
+OpenTSDB offers a number of metrics about its performance, accessible from either its web GUI or HTTP API. The metrics in the stats include the number of open connections, invalid queries, latencies, etc. Some of these metrics are described below:  
+
+| Metric | Tags | Type | Description |
+| :---: | :---: | :---: | :---: |
+| tsd.connectionmgr.connections |	type=open |	Gauge |	The number of currently open Telnet and HTTP connections. |
+| tsd.connectionmgr.exceptions |	type=closed |	Counter |	The total number of exceptions caused by writes to a channel that was already closed. This can occur if a query takes too long, the client closes their connection gracefully, and the TSD attempts to write to the socket. This includes all Telnet and HTTP connections. |	
+			
+      
+The description of each statistics is available in the documentation url:
+http://opentsdb.net/docs/build/html/user_guide/stats.html
+
+To access the stats on the HTTP API, use the following command: 
+  - GET
+  - POST
+
+The Query String is:
+
+```
+http://localhost:4242/api/stats
+```
+
+
+More details on the HTTP API commands is available in the documentation url:
+http://opentsdb.net/docs/build/html/api_http/stats/index.html
 
 
 
 
+### Finding log files in OpenTSDB
+<a name="tsdblog">
+
+Opentsdb uses `logback.xml` file for generating the logs. If you have installed from debian package, then the tsdb binary will look for the `logback.xml` at `/etc/opentsdb/logback.xml`. The log files is also available on the web GUI, under the 'logs' tab.
 
 
+| Levels in logging | Description |
+| :---: | :---: |
+| ERROR | Something failed, be it invalid data, a failed connection or a bug in the code. You should pay attention to these and figure out what caused the error. Check with the user group for assistance. | 
+| WARN | These are often caused by bad user data or something else that was wrong but not a critical error. Look for warnings if you are not receiving the results you expect when using OpenTSDB. | 
+| INFO |  Informational messages are notifications of expected or normal behavior. They can be useful during troubleshooting. Most logging appenders should be set to INFO. | 
+| DEBUG |  If you require further troubleshooting you can enable DEBUG logging that will give much greater detail about what OpenTSDB is doing under the hood. Be careful enabling this level as it can return a vast amount of data. | 
+| OFF |  To drop any logging messages from a class, simply set the level to OFF. | 
 
 
+This appender will write to a log file called /var/log/opentsdb/opentsdb.log. When the file reaches 128MB in size, it will rotate the log to opentsdb.log.1 and start a new opentsdb.log file. Once the new log fills up, it bumps .1 to .2, .log to .1 and creates a new one. It repeats this until there are four log files in total. The next time the log fills up, the last log is deleted. This way you are gauranteed to only use up to 512MB of disk space. 
 
 
-/opt, /tmp, /var/log, /var/lib
-
-status command will give details about the system status like a number of servers present in the cluster, active server count, and average load value. The parameters can be 'summary', 'simple', or 'detailed', the default parameter provided is "summary".
+### Tuning performance in OpenTSDB
+<a name="tsdbtuning">
   
-```
-status
-status 'simple'
-status 'summary'
-status 'detailed'
-```
-
-#### version
-<a name="version">
-version command will display the currently used HBase version in command mode
-
-```
-version
-```
-
-#### table_help
-<a name="table_help">
-table_help command will show:
   
-  - What and how to use table-referenced commands
-  - It will provide different HBase shell command usages and its syntaxes
-  - It will give table manipulations commands like put, get and all other commands information.
-  
-```
-table_help
-```
-
-#### whoami
-<a name="whoami">
-This command "whoami" is used to return the current HBase user information from the HBase cluster.
-It will provide information like:
-  
-  - Groups present in HBase
-  - The user name 
-  
-```
-whoami
-```
-
-#### Data Definition commands
-#### Create
-<a name="Create">
-Create command creates a table in HBase with the specified name given according to the dictionary or specifications as per column family.
-  
-```
-create <tablename>, <columnfamilyname1>, <columnfamilyname2>, <columnfamilyname3>
-create 'notifications', 'attributes', 'metrics'
-```
-
-
-#### List
-<a name="List">
-"List" command will display:
-  
-  - all the tables that are present or created in HBase
-  - The output showing in above screen shot is currently showing the existing tables in HBase
-  - We can filter output values from tables by passing optional regular expression parameters
-
-```
-list
-```
-
-#### Describe
-<a name="Describe">
-"Describe" command describes the named table:
-  
-  - It will give more information about column families present in the mentioned table
-  - In our case, it gives the description about table "education."
-  - It will give information about table name with column families, associated filters, versions and some more details.
-
-```
-describe <tablename>
-```
-
-
-#### Disable, Disable_all
-<a name="Disable">
-Disable:
-  
-  - This command will start disabling the named table
-  - If table needs to be deleted or dropped, it has to disable first
-  
-Disable_all:
-
-  - This command will disable all the tables matching the given regex.
-  - The implementation is same as delete command (Except adding regex for matching)
-  - Once the table gets disable the user can able to delete the table from HBase
-  - Before delete or dropping table, it should be disabled first
-
-```
-disable <tablename>
-disable_all <"matching regex">
-```
-
-
-#### Enable
-<a name="Enable">
-Enable:
-  - This command will start enabling the named table
-  - Whichever table is disabled, to retrieve back to its previous state we use this command
-  - If a table is disabled in the first instance and not deleted or dropped, and if we want to re-use the disabled table then we have to enable it by using this command.
- 
-
-```
-enable <tablename>
-```
-
-#### Show_filters
-<a name="Show_filters">
-This command displays all the filters present in HBase like ColumnPrefix Filter, TimestampsFilter, PageFilter, FamilyFilter, etc.
-
-```
-show_filters
-```
-
-#### Drop, Drop_all
-<a name="Drop">
-Drop:
-  - To delete the table present in HBase, first we have to disable it
-  - To drop the table present in HBase, first we have to disable it
-  - Before execution of this command, it is necessary that you disable table "education."
-  
-Drop_all:
-  - This command will drop all the tables matching the given regex
-  - Tables have to disable first before executing this command using disable_all
-  - Tables with regex matching expressions are going to drop from HBase
-
-```
-drop <tablename1> <tablename2>
-drop_all <"matching regex expression">
-```
-
-#### Enable
-<a name="Enable">
-Is_enabled:
-  - This command will verify whether the named table is enabled or not. Usually, there is a little confusion between "enable" and "is_enabled" command action, which we clear here
-
-Suppose a table is disabled, to use that table we have to enable it by using enable command
-is_enabled command will check either the table is enabled or not
-
-```
-is_enabled <tablename1> <tablename2>
-```
-
-
-#### Alter
-<a name="Alter">
-  
-This command alters the column family schema.
-ALter command is able to:
-  - Altering single, multiple column family names
-  - Deleting column family names from table
-  - Several other operations using scope attributes with table
-
-```
-alter <tablename>, NAME=><column familyname>, VERSIONS=>5
-```
-
-To change or add the 'guru99_1' column family in table 'education' from current value to keep a maximum of 5 cell VERSIONS, "education" is table name created with column name "guru99" previously.
-Here with the help of an alter command we are trying to change the column family schema to guru99_1 from guru99
-
-```
-alter 'education', NAME='guru99_1', VERSIONS=>5
-```
-
-You can also operate the alter command on several column families as well. For example, we will define two new column to our existing table "education". We can change more than one column schemas at a time using this command
-guru99_2 and guru99_3 as shown in above screenshot are the two new column names that we have defined for the table education
-We can see the way of using this command in the previous screen shot
-
-```
-alter 'edu', 'guru99_1', {NAME => 'guru99_2', IN_MEMORY => true}, {NAME => 'guru99_3', VERSIONS => 5}
-```
-
-delete column family from the table. To delete the 'f1' column family in table 'education'.
-
-```
-alter 'education', NAME => 'f1', METHOD => 'delete'
-alter 'education', 'delete' =>' guru99_1'    
-
-```
-
-#### Alter_status
-<a name="Alter">
-  
-Through this command, you can get the status of the alter command, which indicates the number of regions of the table that have received the updated schema pass table name.
-
-```
-alter_status <tablename>
-```
-
-#### Data manipulation commands
-#### Count
-<a name="Count">
-  - The command will retrieve the count of a number of rows in a table. The value returned by this one is the number of rows.
-  - Current count is shown per every 1000 rows by default.
-  - Count interval may be optionally specified.
-  - Default cache size is 10 rows.
-  - Count command will work fast when it is configured with right Cache. 
-
-
-```
-count <'tablename'>, CACHE =>1000
-count 'guru99', CACHE=>1000
-count 'guru99', INTERVAL => 100000
-count 'guru99', INTERVAL =>10, CACHE=> 1000
-```
-
-If suppose if the table "Guru99" having some table reference like say g.
-
-We can run the count command on table reference also like below
-
-```
-g.count INTERVAL=>100000
-g.count INTERVAL=>10, CACHE=>1000
-```
-
-#### Put
-<a name="Put">
-It will put a cell 'value' at defined or specified table or row or column.
-It will optionally coordinate time stamp.
-
-- Here we are placing values into table "guru99" under row r1 and column c1
-
-```
-put <'tablename'>,<'rowname'>,<'attribute:columnname'>,<'value'>
-put 'guru99', 'r1', 'c1:value', 10
-g.put 'guru99', 'r1', 'c1:value', 10
-
-```
-
-
-#### Get
-<a name="Get">
-Here <Additional Parameters> include:
-  
-  - TIMERANGE
-  - TIMESTAMP
-  - VERSIONS
-  - FILTERS.
-
-By using this command, you will get a row or cell contents present in the table. In addition to that you can also add additional parameters to it like TIMESTAMP, TIMERANGE,VERSIONS, FILTERS, etc. to get a particular row or cell content.
-
-- For table "guru99' row r1 and column c1 values will display using this command as shown in the above screen shot
-- For table "guru99"row r1 values will be displayed using this command
-- For table "guru99"row 1 values in the time range ts1 and ts2 will be displayed using this command
-- For table "guru99" row r1 and column families' c1, c2, c3 values will be displayed using this command
-
-```
-get <'tablename'>, <'rowname'>, {< Additional parameters>}
-get 'guru99', 'r1', {COLUMN => 'c1'}
-get 'guru99', 'r1'
-get 'guru99', 'r1', {TIMERANGE => [ts1, ts2]}
-get 'guru99', 'r1', {COLUMN => ['c1', 'c2', 'c3']}
-```
-
-#### Delete, Delete_all
-<a name="Delete">
-Delete:
-- This command will delete cell value at defined table of row or column.
-- Delete must and should match the deleted cells coordinates exactly.
-- When scanning, delete cell suppresses older versions of values.
-- The above execution will delete row r1 from column family c1 in table "guru99."
-- Suppose if the table "guru99" having some table reference like say g.
-- We can run the command on table reference also like hbase> g.delete 'guru99', 'r1', 'c1'".
-  
-Delete_all:
-  - This Command will delete all cells in a given row.
-  - We can define optionally column names and time stamp to the syntax.
-
-
-```
-delete <'tablename'>,<'row name'>,<'column name'>
-delete 'guru99', 'r1', 'c1''. 
-deleteall <'tablename'>, <'rowname'>
-deleteall 'guru99', 'r1', 'c1'
-```
-
-
-#### Truncate
-<a name="Truncate">
-After truncate of an hbase table, the schema will present but not the records. This command performs 3 functions; those are listed    below:
-  - Disables table if it already presents
-  - Drops table if it already presents
-  - Recreates the mentioned table
-
-```
-truncate <tablename>
-```
-
-
-
-#### scan
-<a name="scan">
-This command scans entire table and displays the table contents.
-
-- We can pass several optional specifications to this scan command to get more information about the tables present in the system.
-- Scanner specifications may include one or more of the following attributes.
-- These are TIMERANGE, FILTER, TIMESTAMP, LIMIT, MAXLENGTH, COLUMNS, CACHE, STARTROW and STOPROW.
-```
-scan <'tablename'>, {Optional parameters}
-scan 'guru99' 
-```
-
-The different usages of scan command
-
-
-| Command | Usage |
-| :---: | :---: | 
-| scan '.META.', {COLUMNS => 'info:regioninfo'} | It display all the meta data information related to columns that are present in the tables in HBase |
-| scan 'guru99', {COLUMNS => ['c1', 'c2'], LIMIT => 10, STARTROW => 'xyz'} | It display contents of table guru99 with their column families c1 and c2 limiting the values to 10 |
-| scan 'guru99', {COLUMNS => 'c1', TIMERANGE => [1303668804, 1303668904]} | It display contents of guru99 with its column name c1 with the values present in between the mentioned time range attribute value |
-| scan 'guru99', {RAW => true, VERSIONS =>10} |  In this command RAW=> true provides advanced feature like to display all the cell values present in the table guru99 |
-
-
-#### Cluster Replication Commands
-<a name="clust">
-  
-These commands work on cluster set up mode of HBase.
-For adding and removing peers to cluster and to start and stop replication these commands are used in general.
-
-| Command | Functionality | Example |
-| :---: | :---: | :---: | 
-| add_peer | Add peers to cluster to replicate | hbase> add_peer '3', zk1,zk2,zk3:2182:/hbase-prod |
-| remove_peer | Stops the defined replication stream. Deletes all the metadata information about the peer | hbase> remove_peer '1' |
-| start_replication | Restarts all the replication features | hbase> start_replication |
-| stop_replication | Stops all the replication features | hbase>stop_replication |
-
-
-### Resources
-Different types of filter parameters: https://acadgild.com/blog/different-types-of-filters-in-hbase-shell
-
+Tuning of OpenTSDB for HBase Storage. These are parameters to look at for using OpenTSDB with Apache HBase.
+  - Date Tierd Compaction
+  - HBase Read/Write Queues
+  - HBase Cache
+  - HBase Compaction
+  - HBase Regions
+  - HBase Memstore
+
+  More details on the tuning of OpenTSDB database is available in the documentation url:
+  http://opentsdb.net/docs/build/html/user_guide/tuning.html
