@@ -234,7 +234,7 @@ sudo service <name of service> restart
 ```
 
 
-##### OpenTSDB
+### OpenTSDB
 ### Monitor Stats and Data loading in OpenTSDB
 <a name="opentsdb">
 
@@ -298,3 +298,24 @@ Tuning of OpenTSDB for HBase Storage. These are parameters to look at for using 
 
   More details on the tuning of OpenTSDB database is available in the documentation url:
   http://opentsdb.net/docs/build/html/user_guide/tuning.html
+  
+  
+### Hbase
+### Monitor Hbase Master UI
+<a name="hbase">
+
+#### To start, stop, restart services
+
+```
+sudo service hadoop-hbase-regionserver stop
+sudo service hadoop-hbase-regionserver start
+sudo service hadoop-hbase-regionserver restart
+```
+
+```
+sudo service hbase-master stop
+sudo service hbase-master start
+sudo service hbase-master restart
+```
+- [Region Servers Health check](#regionservers)
+
