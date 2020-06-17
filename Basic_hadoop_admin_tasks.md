@@ -31,6 +31,8 @@ Basic Hadoop Administrative tasks and the corresponding commands.
 
 ##### YARN
 - [Yarn Resource Manager UI - Job monitoring](#yarn)
+- [Yarn Administration](#yarnadmin)
+- [Manage services on YARN via CLI](#yarncli)
 
 ##### Flink
 - [Flink Dashboard - Flink jobs monitoring](#flink)
@@ -366,3 +368,51 @@ The key process logs are as follows (replace <user> with the user that started t
 
 The following URL provides documentation on job monitoring on YARN Resource Manager:
 https://docs.cloudera.com/documentation/enterprise/5-13-x/topics/cm_dg_yarn_applications.html#concept_vh1_jtj_gk
+
+
+### Manage services on YARN via CLI
+<a name="yarncli">
+
+**Deploy a service**
+
+```
+yarn app -launch ${SERVICE_NAME} ${PATH_TO_SERVICE_DEF_FILE}
+yarn app -launch sleeper-service /path/to/local/sleeper.json
+```
+
+Params: - SERVICE_NAME: The name of the service. Note that this needs to be unique across running services for the current user. - PATH_TO_SERVICE_DEF: The path to the service definition file in JSON format.
+
+
+**Flex a component of a service**
+
+Increase or decrease the number of containers for a component.
+
+```
+yarn app -flex ${SERVICE_NAME} -component ${COMPONENT_NAME} ${NUMBER_OF_CONTAINERS}
+yarn app -flex sleeper-service -component sleeper 2
+# Set the sleeper component to 2 containers (absolute number).
+```
+
+**Stop a service**
+
+Stopping a service will stop all containers of the service and the ApplicationMaster, but does not delete the state of a service, such as the service root folder on hdfs.
+
+```
+yarn app -stop ${SERVICE_NAME}
+```
+
+**Restart a stopped service**
+
+Restarting a stopped service is easy - just call start!
+
+```
+yarn app -start ${SERVICE_NAME}
+```
+
+**Destroy a service**
+
+In addition to stopping a service, it also deletes the service root folder on hdfs and the records in YARN Service Registry.
+
+```
+yarn app -destroy ${SERVICE_NAME}
+```
