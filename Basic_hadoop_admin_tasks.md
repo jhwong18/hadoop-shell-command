@@ -260,7 +260,14 @@ Monitoring of Hadoop clusters can be done in 3 ways:
 
 #### Using Web UI on Apache Hadoop (Monitor Namenode UI)
 <a name="namenode">
-	
+
+
+![HDFS Cluster Health](image/Hadoop_cluster_health.PNG)
+
+![More on HDFS Cluster Health ](image/Hadoop_cluster_health_1.PNG)
+
+![HDFS DataNode Health](image/Hadoop_datanode_health.PNG)
+
 On the overview of the Namenode URL, you can monitor the following metrics:
 
 - Heap Memory Used/Available/Maximum
@@ -321,8 +328,11 @@ hdfs fsck / -files -blocks -locations >dfs-fsck.log
 
 #### Log files in HDFS
 <a name="hdfslog">
-	
+
+![HDFS Logs](image/Hadoop_logs.PNG)
+
 From this Apache Hadoop UI, we can access the log files, by clicking on the 'utilities' section -> 'logs' section.
+
 
 Alternatively, the log files are available in the folder `/var/log/hadoop-hdfs/`. The list of log files are:
 
