@@ -239,7 +239,7 @@ hdfs dfs -count -q <dir>"
 	
 
 
-### Monitor Cluster Health in Hadoop
+#### Monitor Cluster Health in Hadoop
 
 Monitoring of Hadoop clusters can be done in 3 ways:
 
@@ -259,7 +259,7 @@ Monitoring of Hadoop clusters can be done in 3 ways:
 
 **Using Web UI on Apache Hadoop**
 
-### Monitor Namenode UI
+#### Monitor Namenode UI
 <a name="namenode">
 	
 On the overview of the Namenode URL, you can monitor the following metrics:
@@ -282,7 +282,7 @@ On the Seocndary Namenode URL, you can monitor the following metrics:
 
 **Using Web UI on Ambari**
 
-### Handle Alerts & Warnings in Ambari
+#### Handle Alerts & Warnings in Ambari
 <a name="alerts">
 
 The following link contains the resources to monitor HDFS, YARN, HBase using Ambari Web UI. 
