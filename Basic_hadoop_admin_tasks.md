@@ -381,9 +381,9 @@ The HBase Master web UI shows:
 This is a useful place to start when you’re trying to find out the state of the system. Often, you can find issues here when RegionServers have fallen over, aren’t balanced in terms of the regions and requests they’re serving, or are misconfigured to use less heap than you had planned to give them.
 
 
-
 ### Finding log files in HBase
-
+<a name="hbaselog">
+	
 From this Master Web UI, we can access the log files, by clicking on the logs section and open the log file `var/log/hbase/hbase-hbase-master-quickstart.cloudera.log`. Alternatively, you can access the logs file via
 `var/log/hbase/hbase-hbase-master-quickstart.cloudera.log` (for HMaster)
 
