@@ -485,11 +485,20 @@ On the web GUI for Resource Manager,
 
 ![Monitor Cluster Health in YARN](image/YARN_cluster_health.PNG)
 
-- 1) Click on the Cluster section. This shows the cluster ID, Resource Manager State, Resource Manager High Availability State
-- 2) When a (mapreduce) job is executed, the job can be viewed by clicking "application" section -> "Jobs" section. You can view the job ID, map state, reduce state and overall state if it is running.
-- 3) You can view all the completed jobs by clicking "cluster" section -> "application" section -> "FINISHED" section. 
-- 4) You can also monitor jobs with other status: killed, failed, running, accepted. 
-- 5) You can also monitor scheduler by clicking on "cluster" section -> "scheduler" section. This shows you the details on used, available capacity and queue status.
+1) Click on the Cluster section. This shows the cluster ID, Resource Manager State, Resource Manager High Availability State
+
+![Monitor Cluster Health in YARN](image/YARN_jobs.png)
+
+2) When a (mapreduce) job is executed, the job can be viewed by clicking "application" section -> "Jobs" section. You can view the job ID, map state, reduce state and overall state if it is running.
+
+![Monitor Cluster Health in YARN](image/YARN_finished_failed_save.PNG)
+
+3) You can view all the completed jobs by clicking "cluster" section -> "application" section -> "FINISHED" section. 
+
+4) You can also monitor jobs with other status: killed, failed, running, accepted. 
+
+
+5) You can also monitor scheduler by clicking on "cluster" section -> "scheduler" section. This shows you the details on used, available capacity and queue status.
 
 
 The following URL provides documentation on job monitoring on YARN Resource Manager:
@@ -500,7 +509,10 @@ The following URL provides documentation on job monitoring on YARN Resource Mana
 <a name="yarnlog">
 	
 From this Web GUI, we can access the log files, by clicking on the tools section and then the local logs link. We can access the following logs:
-	
+
+![Monitor Cluster Health in YARN](image/YARN_logs.PNG)
+
+
 | Type of log | name | location |
 | :---: | :---: | :---: |
 | node manager | yarn-yarn-nodemanager-quickstart.cloudera.log | var/log/hadoop-yarn/ | 
