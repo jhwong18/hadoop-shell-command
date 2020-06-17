@@ -254,12 +254,11 @@ Monitoring of Hadoop clusters can be done in 3 ways:
 	
 	- http://[YOUR_AMBARI_SERVER_FQDN]:8080
 	
-	- Hadoop hdfs commands 
+
+- Hadoop hdfs commands 
 
 
-**Using Web UI on Apache Hadoop**
-
-#### Monitor Namenode UI
+#### Using Web UI on Apache Hadoop (Monitor Namenode UI)
 <a name="namenode">
 	
 On the overview of the Namenode URL, you can monitor the following metrics:
@@ -280,9 +279,8 @@ On the Seocndary Namenode URL, you can monitor the following metrics:
 - Checkpoint Editlog URI
 
 
-**Using Web UI on Ambari**
 
-#### Handle Alerts & Warnings in Ambari
+#### Using Web UI on Ambari (Handle Alerts & Warnings in Ambari)
 <a name="alerts">
 
 The following link contains the resources to monitor HDFS, YARN, HBase using Ambari Web UI. 
@@ -293,7 +291,7 @@ The following link contains the resources to monitor HDFS, YARN, HBase using Amb
 	
 
 
-**Hadoop hdfs commands**
+#### Hadoop hdfs commands
 
 The first step is to check dfsadmin report for HDFS cluster overall status and each namenode/datanode status.
 
@@ -321,17 +319,20 @@ hdfs fsck / -files -blocks -locations >dfs-fsck.log
 ```
 
 
-### Log files in HDFS
+#### Log files in HDFS
 <a name="hdfslog">
 	
 From this Apache Hadoop UI, we can access the log files, by clicking on the 'utilities' section -> 'logs' section.
 
 Alternatively, the log files are available in the folder `/var/log/hadoop-hdfs/`. The list of log files are:
 
-	- Datanode: `hadoop-hdfs-datanode-quickstart.cloudera.log`
-	- Journalnode: `hadoop-hdfs-journalnode-quickstart.cloudera.log`
-	- Namenode: `hadoop-hdfs-namenode-quickstart.cloudera.log`
-	- Secondary Namenode: `hadoop-hdfs-secondarynamenode-quickstart.cloudera.log`
+- Datanode: `hadoop-hdfs-datanode-quickstart.cloudera.log`
+
+- Journalnode: `hadoop-hdfs-journalnode-quickstart.cloudera.log`
+
+- Namenode: `hadoop-hdfs-namenode-quickstart.cloudera.log`
+
+- Secondary Namenode: `hadoop-hdfs-secondarynamenode-quickstart.cloudera.log`
 
 
 
@@ -340,7 +341,7 @@ Alternatively, the log files are available in the folder `/var/log/hadoop-hdfs/`
 ### Hbase
 <a name="hbase">
 
-### To start, stop, restart services
+#### To start, stop, restart services
 
 ```
 sudo service hadoop-hbase-regionserver stop
@@ -354,9 +355,9 @@ sudo service hbase-master start
 sudo service hbase-master restart
 ```
 
-### Monitor Hbase Master Web UI
+#### Monitor Hbase Master Web UI
 
-### Region Servers Health check
+#### Region Servers Health check
 <a name="regionservers">
 	
 
@@ -367,13 +368,15 @@ http://quickstart.cloudera:60010
 ```
 
 The HBase Master web UI shows:
-	- the number of requests per second being served by each of the RegionServers
-	- the number of regions that are online on the RegionServers, and the used and max heap.
+
+- the number of requests per second being served by each of the RegionServers
+- the number of regions that are online on the RegionServers, and the used and max heap.
+
 
 This is a useful place to start when you’re trying to find out the state of the system. Often, you can find issues here when RegionServers have fallen over, aren’t balanced in terms of the regions and requests they’re serving, or are misconfigured to use less heap than you had planned to give them.
 
 
-### Finding log files in HBase
+#### Finding log files in HBase
 <a name="hbaselog">
 	
 From this Master Web UI, we can access the log files, by clicking on the logs section and open the log file `var/log/hbase/hbase-hbase-master-quickstart.cloudera.log`. Alternatively, you can access the logs file via
@@ -382,24 +385,24 @@ From this Master Web UI, we can access the log files, by clicking on the logs se
 
 The key process logs are as follows (replace <user> with the user that started the service, and <hostname> for the machine name)
 
-	- NameNode: $HADOOP_HOME/logs/hadoop-<user>-namenode-<hostname>.log
+- NameNode: $HADOOP_HOME/logs/hadoop-<user>-namenode-<hostname>.log
 
-	- DataNode: $HADOOP_HOME/logs/hadoop-<user>-datanode-<hostname>.log
+- DataNode: $HADOOP_HOME/logs/hadoop-<user>-datanode-<hostname>.log
 
-	- JobTracker: $HADOOP_HOME/logs/hadoop-<user>-jobtracker-<hostname>.log
+- JobTracker: $HADOOP_HOME/logs/hadoop-<user>-jobtracker-<hostname>.log
 
-	- TaskTracker: $HADOOP_HOME/logs/hadoop-<user>-tasktracker-<hostname>.log
+- TaskTracker: $HADOOP_HOME/logs/hadoop-<user>-tasktracker-<hostname>.log
  
-	- HMaster: $HBASE_HOME/logs/hbase-<user>-master-<hostname>.log
+- HMaster: $HBASE_HOME/logs/hbase-<user>-master-<hostname>.log
 
-	- RegionServer: $HBASE_HOME/logs/hbase-<user>-regionserver-<hostname>.log
+- RegionServer: $HBASE_HOME/logs/hbase-<user>-regionserver-<hostname>.log
 	
 	
 	
 
 ### OpenTSDB
 
-### Monitor Stats and Data loading in OpenTSDB
+#### Monitor Stats and Data loading in OpenTSDB
 <a name="opentsdb">
 
 OpenTSDB offers a number of metrics about its performance, accessible from either its web GUI or HTTP API. The metrics in the stats include the number of open connections, invalid queries, latencies, etc. Some of these metrics are described below:  
@@ -411,9 +414,11 @@ OpenTSDB offers a number of metrics about its performance, accessible from eithe
 			
       
 The description of each statistics is available in the documentation url:
-http://opentsdb.net/docs/build/html/user_guide/stats.html
+
+- http://opentsdb.net/docs/build/html/user_guide/stats.html
 
 To access the stats on the HTTP API, use the following command: 
+  
   - GET
   - POST
 
@@ -430,7 +435,7 @@ http://opentsdb.net/docs/build/html/api_http/stats/index.html
 
 
 
-### Finding log files in OpenTSDB
+#### Finding log files in OpenTSDB
 <a name="tsdblog">
 
 Opentsdb uses `logback.xml` file for generating the logs. If you have installed from debian package, then the tsdb binary will look for the `logback.xml` at `/etc/opentsdb/logback.xml`. The log files is also available on the web GUI, under the 'logs' tab.
@@ -448,11 +453,12 @@ Opentsdb uses `logback.xml` file for generating the logs. If you have installed 
 This appender will write to a log file called /var/log/opentsdb/opentsdb.log. When the file reaches 128MB in size, it will rotate the log to opentsdb.log.1 and start a new opentsdb.log file. Once the new log fills up, it bumps .1 to .2, .log to .1 and creates a new one. It repeats this until there are four log files in total. The next time the log fills up, the last log is deleted. This way you are gauranteed to only use up to 512MB of disk space. 
 
 
-### Tuning performance in OpenTSDB
+#### Tuning performance in OpenTSDB
 <a name="tsdbtuning">
   
   
 Tuning of OpenTSDB for HBase Storage. These are parameters to look at for using OpenTSDB with Apache HBase.
+
   - Date Tierd Compaction
   - HBase Read/Write Queues
   - HBase Cache
@@ -461,13 +467,14 @@ Tuning of OpenTSDB for HBase Storage. These are parameters to look at for using 
   - HBase Memstore
 
   More details on the tuning of OpenTSDB database is available in the documentation url:
-  http://opentsdb.net/docs/build/html/user_guide/tuning.html
+  
+  - http://opentsdb.net/docs/build/html/user_guide/tuning.html
   
 	
 
 ### YARN
 
-### YARN Resource Manager UI - Job monitoring
+#### YARN Resource Manager UI - Job monitoring
 <a name="yarn">
 
 There are 2 web GUI for YARN:
@@ -476,17 +483,18 @@ There are 2 web GUI for YARN:
 
 On the web GUI for Resource Manager,
 
-	- 1) Click on the Cluster section. This shows the cluster ID, Resource Manager State, Resource Manager High Availability State
-	- 2) When a (mapreduce) job is executed, the job can be viewed by clicking "application" section -> "Jobs" section. You can view the job ID, map state, reduce state and overall state if it is running.
-	- 3) You can view all the completed jobs by clicking "cluster" section -> "application" section -> "FINISHED" section. 
-	- 4) You can also monitor jobs with other status: killed, failed, running, accepted. 
-	- 5) You can also monitor scheduler by clicking on "cluster" section -> "scheduler" section. This shows you the details on used, available capacity and queue status.
+- 1) Click on the Cluster section. This shows the cluster ID, Resource Manager State, Resource Manager High Availability State
+- 2) When a (mapreduce) job is executed, the job can be viewed by clicking "application" section -> "Jobs" section. You can view the job ID, map state, reduce state and overall state if it is running.
+- 3) You can view all the completed jobs by clicking "cluster" section -> "application" section -> "FINISHED" section. 
+- 4) You can also monitor jobs with other status: killed, failed, running, accepted. 
+- 5) You can also monitor scheduler by clicking on "cluster" section -> "scheduler" section. This shows you the details on used, available capacity and queue status.
 
 
 The following URL provides documentation on job monitoring on YARN Resource Manager:
-https://hadooptutorial.info/yarn-web-ui/
+- https://hadooptutorial.info/yarn-web-ui/
 
-### Finding log files in YARN
+
+#### Finding log files in YARN
 <a name="yarnlog">
 	
 From this Web GUI, we can access the log files, by clicking on the tools section and then the local logs link. We can access the following logs:
@@ -499,10 +507,10 @@ From this Web GUI, we can access the log files, by clicking on the tools section
 
 
 The following URL provides documentation on job monitoring on YARN Resource Manager:
-https://docs.cloudera.com/documentation/enterprise/5-13-x/topics/cm_dg_yarn_applications.html#concept_vh1_jtj_gk
+- https://docs.cloudera.com/documentation/enterprise/5-13-x/topics/cm_dg_yarn_applications.html#concept_vh1_jtj_gk
 
 
-### Manage services on YARN via CLI
+#### Manage services on YARN via CLI
 <a name="yarncli">
 
 **To start, stop, restart YARN** 
@@ -567,26 +575,27 @@ https://flink.apache.org/news/2019/02/25/monitoring-best-practices.html
 
 
 ### Phoenix
-### Monitoring Metrics in Phoenix
+#### Monitoring Metrics in Phoenix
 <a name="phoenix">
 
 Phoenix has various metrics that provide an insight into what is going on within the Phoenix client as it is executing various SQL statements. These metrics are collected within the client JVM in two ways:
-	- Request level metrics - collected at an individual SQL statement level
-	- Global metrics - collected at the client JVM level
+
+- Request level metrics - collected at an individual SQL statement level
+- Global metrics - collected at the client JVM level
 
 Request level metrics are helpful for figuring out at a more granular level about the amount of work done by every SQL statement executed by Phoenix. These metrics can be classified into three categories:
 
-	- Mutation Metrics
-	- Scan Task Metrics
-	- Overall Query Metrics
+- Mutation Metrics
+- Scan Task Metrics
+- Overall Query Metrics
 
 More details on the metrics in Phoenix can be found in the following URL:
-http://phoenix.apache.org/metrics.html
+- http://phoenix.apache.org/metrics.html
 
 
 
 ### Basic Tasks
-### Start, Stop, Restart Service
+#### Start, Stop, Restart Service
 <a name="restart">
 
 To list all the services, use the following command:
