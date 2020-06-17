@@ -483,7 +483,7 @@ There are 2 web GUI for YARN:
 
 On the web GUI for Resource Manager,
 
-!(image/YARN_cluster_health.png)
+![Monitor Cluster Health in YARN](image/YARN_cluster_health.png)
 
 - 1) Click on the Cluster section. This shows the cluster ID, Resource Manager State, Resource Manager High Availability State
 - 2) When a (mapreduce) job is executed, the job can be viewed by clicking "application" section -> "Jobs" section. You can view the job ID, map state, reduce state and overall state if it is running.
