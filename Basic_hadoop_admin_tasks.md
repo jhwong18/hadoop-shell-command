@@ -261,6 +261,8 @@ hdfs dfs -count -q <dir>"
 ### HDFS / Hadoop
 <a name="hadoop">
 	
+
+
 ### Monitor Cluster Health in Hadoop
 Monitoring of Hadoop clusters can be done in 3 ways:
 	- Using Web UI on Apache Hadoop
@@ -274,6 +276,7 @@ Monitoring of Hadoop clusters can be done in 3 ways:
 
 
 **Using Web UI on Apache Hadoop**
+
 ### Monitor Namenode UI
 <a name="namenode">
 	
@@ -294,8 +297,10 @@ On the Seocndary Namenode URL, you can monitor the following metrics:
 
 
 **Using Web UI on Ambari**
+
 ### Handle Alerts & Warnings in Ambari
 <a name="alerts">
+
 The following link contains the resources to monitor HDFS, YARN, HBase using Ambari Web UI. 
 https://docs.cloudera.com/HDPDocuments/Ambari-2.7.5.0/managing-and-monitoring-ambari/content/amb_access_ambari_web.html
 https://docs.cloudera.com/HDPDocuments/Ambari-2.7.1.0/managing-and-monitoring-ambari/amb_managing_and_monitoring_hadoop_cluster.pdf	
@@ -364,6 +369,7 @@ sudo service hbase-master restart
 ```
 
 ### Monitor Hbase Master Web UI
+
 ### Region Servers Health check
 <a name="regionservers">
 	
@@ -406,6 +412,7 @@ The key process logs are as follows (replace <user> with the user that started t
 	
 
 ### OpenTSDB
+
 ### Monitor Stats and Data loading in OpenTSDB
 <a name="opentsdb">
 
@@ -473,6 +480,7 @@ Tuning of OpenTSDB for HBase Storage. These are parameters to look at for using 
 	
 
 ### YARN
+
 ### YARN Resource Manager UI - Job monitoring
 <a name="yarn">
 
