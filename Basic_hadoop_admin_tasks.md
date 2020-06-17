@@ -56,10 +56,10 @@ With the usage of Hadoop platforms and services, various issues regarding lack o
   
 Logical Disk Free Space is too low is due to the lack of free space in either of the following folders:
 	
-	- /opt
-  	- /tmp
-	- /var/log
- 	- /var/lib
+- /opt
+- /tmp
+- /var/log
+- /var/lib
 
 
 | Directory in /opt | Description |
