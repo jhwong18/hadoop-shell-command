@@ -242,12 +242,17 @@ hdfs dfs -count -q <dir>"
 ### Monitor Cluster Health in Hadoop
 
 Monitoring of Hadoop clusters can be done in 3 ways:
-	- Using Web UI on Apache Hadoop
-		- Namenode: http://quickstart.cloudera:50070/dfshealth.html#tab-overview 
-		- Secondary Namenode: http://quickstart.cloudera:50090/status.html
+
+- Using Web UI on Apache Hadoop
 	
-	- Using Web UI on Ambari
-		- http://[YOUR_AMBARI_SERVER_FQDN]:8080
+	- Namenode: http://quickstart.cloudera:50070/dfshealth.html#tab-overview
+		
+	- Secondary Namenode: http://quickstart.cloudera:50090/status.html
+	
+	
+- Using Web UI on Ambari
+	
+	- http://[YOUR_AMBARI_SERVER_FQDN]:8080
 	
 	- Hadoop hdfs commands 
 
@@ -259,18 +264,20 @@ Monitoring of Hadoop clusters can be done in 3 ways:
 	
 On the overview of the Namenode URL, you can monitor the following metrics:
 
-	- Heap Memory Used/Available/Maximum
-	- Number of files and directories, Number of blocks
-	- Capacity, Disk Free Space used/remaining
-	- Number of Live/Dead nodes
-	- Storage directory
-	- Datanode (datanode name, admin state, capacity, DFS, failed volumes)
+- Heap Memory Used/Available/Maximum
+- Number of files and directories, Number of blocks
+- Capacity, Disk Free Space used/remaining
+- Number of Live/Dead nodes
+- Storage directory
+- Datanode (datanode name, admin state, capacity, DFS, failed volumes)
+
 
 On the Seocndary Namenode URL, you can monitor the following metrics:
-	- Last checkpoint
-	- Namenode Address
-	- Checkpoint Image URI
-	- Checkpoint Editlog URI
+
+- Last checkpoint
+- Namenode Address
+- Checkpoint Image URI
+- Checkpoint Editlog URI
 
 
 **Using Web UI on Ambari**
@@ -279,8 +286,10 @@ On the Seocndary Namenode URL, you can monitor the following metrics:
 <a name="alerts">
 
 The following link contains the resources to monitor HDFS, YARN, HBase using Ambari Web UI. 
-https://docs.cloudera.com/HDPDocuments/Ambari-2.7.5.0/managing-and-monitoring-ambari/content/amb_access_ambari_web.html
-https://docs.cloudera.com/HDPDocuments/Ambari-2.7.1.0/managing-and-monitoring-ambari/amb_managing_and_monitoring_hadoop_cluster.pdf	
+
+- https://docs.cloudera.com/HDPDocuments/Ambari-2.7.5.0/managing-and-monitoring-ambari/content/amb_access_ambari_web.html
+
+- https://docs.cloudera.com/HDPDocuments/Ambari-2.7.1.0/managing-and-monitoring-ambari/amb_managing_and_monitoring_hadoop_cluster.pdf	
 	
 
 
