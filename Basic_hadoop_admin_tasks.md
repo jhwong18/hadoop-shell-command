@@ -42,19 +42,6 @@ Basic Hadoop Administrative tasks and the corresponding commands.
 ##### Phoenix
 - [Monitoring Metrics in Phoenix](#phoenix) 
 
-Phoenix has various metrics that provide an insight into what is going on within the Phoenix client as it is executing various SQL statements. These metrics are collected within the client JVM in two ways:
-	- Request level metrics - collected at an individual SQL statement level
-	- Global metrics - collected at the client JVM level
-
-Request level metrics are helpful for figuring out at a more granular level about the amount of work done by every SQL statement executed by Phoenix. These metrics can be classified into three categories:
-
-	- Mutation Metrics
-	- Scan Task Metrics
-	- Overall Query Metrics
-
-More details on the metrics in Phoenix can be found in the following URL:
-http://phoenix.apache.org/metrics.html
-
 
 #### Basic Tasks
 - [Start, Stop, Restart Service](#restart)
@@ -584,6 +571,25 @@ yarn app -destroy ${SERVICE_NAME}
 
 The following URL provides documentation on monitoring of jobs using Flink Web Dashboard:
 https://flink.apache.org/news/2019/02/25/monitoring-best-practices.html
+
+
+### Phoenix
+### Monitoring Metrics in Phoenix
+<a name="phoenix">
+
+Phoenix has various metrics that provide an insight into what is going on within the Phoenix client as it is executing various SQL statements. These metrics are collected within the client JVM in two ways:
+	- Request level metrics - collected at an individual SQL statement level
+	- Global metrics - collected at the client JVM level
+
+Request level metrics are helpful for figuring out at a more granular level about the amount of work done by every SQL statement executed by Phoenix. These metrics can be classified into three categories:
+
+	- Mutation Metrics
+	- Scan Task Metrics
+	- Overall Query Metrics
+
+More details on the metrics in Phoenix can be found in the following URL:
+http://phoenix.apache.org/metrics.html
+
 
 
 ### Basic Tasks
