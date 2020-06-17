@@ -96,21 +96,13 @@ The steps to resolve low Logical Disk Free Space:
   cd /tmp/
   find -type f -name '*text*' -delete  # Remove all files with specific text
   ```
-  
-  ```
-  rm /tmp/*    # Remove all files in /tmp folder 
-  rm /tmp/*.txt  # Remove all files in specific extension
-  
-  cd /tmp/
-  find -type f -name '*text*' -delete  # Remove all files with specific text
-  ```
 
   4) Run the disk free command to check the free space in the respective folders
   
   ```
   df -hT /opt/
   df -hT /tmp/
-  free -h
+  free
   ```
 
 
