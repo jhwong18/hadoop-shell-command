@@ -47,14 +47,8 @@ Basic Hadoop Administrative tasks for various services: Hadoop, HDFS, YARN, Flin
 
 ### Maintain disk free space in OS Space (Logs space and deleting old logs)
 <a name="OSspace">
-With the usage of Hadoop platforms and services, various issues regarding lack of memory space may occur in the servers:
-	
-- Logical Disk Free space is too low
-- Swap memory (space) is too low
-- CPU Utilization is too high
-- Used memory is too high (Low RAM available)
   
-Logical Disk Free Space is too low is due to the lack of free space in either of the following folders:
+Low logical Disk Free Space is due to the lack of storage space in either of the following folders:
 	
 - /opt
 - /tmp
@@ -62,18 +56,10 @@ Logical Disk Free Space is too low is due to the lack of free space in either of
 - /var/lib
 
 
-| Directory in /opt | Description |
+| Folder | Description |
 | :---: | :---: |
 | /opt |	/opt is reserved for the installation of add-on application software packages | 
-
-
-| Directory in /tmp | Description |
-| :---: | :---: |
 | /tmp |	The /tmp directory must be made available for programs that require temporary files. Programs must not assume that any files or directories in /tmp are preserved between invocations of the program. | 
-
-
-| Directory in /var | Description |
-| :---: | :---: |
 | var/cache |	Application cache data |
 | var/lib |	Variable state information |
 | var/local |	Variable data for /usr/local |
