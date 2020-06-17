@@ -167,7 +167,7 @@ To check the Swap space, use the free command
 free
 ```
 
-To reduce usage of swap space, you can minimize usage of swap by playing with swappiness. You can get current value with command:
+To reduce usage of swap space, you can either remove files from folders (e.g. log files in /var/log) or minimize usage of swap by playing with swappiness. You can get current value with command:
 
 ```
 cat /proc/sys/vm/swappiness
@@ -204,8 +204,8 @@ cat /proc/swaps   # check if newly added swap file is now available
 To check the disk space in HDFS, run the following commands: 
 
 ```
-hdfs dfs -df -h / 
-hdfs dfs -du -s -h /
+hdfs dfs -df -h /      # how much space is left
+hdfs dfs -du -s -h /   # how much space is used
 ```
 
 Alternatively, use dfsadmin for disk free command
@@ -240,6 +240,7 @@ hdfs dfs -count -q <dir>"
 
 
 ### Monitor Cluster Health in Hadoop
+
 Monitoring of Hadoop clusters can be done in 3 ways:
 	- Using Web UI on Apache Hadoop
 		- Namenode: http://quickstart.cloudera:50070/dfshealth.html#tab-overview 
