@@ -10,15 +10,18 @@ Basic Hadoop Administrative tasks and the corresponding commands.
 - [Memory Utilization](#memory)
 - [Low Swap Space](#swap)
 
+
 ##### Hadoop
 - [Monitor Cluster Health in Hadoop](#hadoop)
 - [Handle Alerts & Warnings in Ambari](#alerts)
 - [Monitor Namenode UI](#namenode)
 
+
 ##### Hbase
 - [Monitor Hbase Master UI](#hbase)
 - [Finding log files in OpenTSDB](#hbaselog)
 - [Region Servers Health check](#regionservers)
+
 
 ##### OpenTSDB
 - [Monitor Stats and Data loading in OpenTSDB](#opentsdb)
@@ -38,7 +41,6 @@ Basic Hadoop Administrative tasks and the corresponding commands.
 
 #### Basic Tasks
 - [Start, Stop, Restart Service](#restart)
-- [Log files location](#log)
 - [Get Admin report](#admin)
 
 
@@ -319,6 +321,9 @@ sudo service hbase-master restart
 ```
 
 ### Monitor Hbase Master Web UI
+### Region Servers Health check
+<a name="regionservers">
+	
 
 To access to the HBase Master Web UI, ensure that your hbase-master service is running. Next, enter the following url:
 
@@ -353,3 +358,11 @@ The key process logs are as follows (replace <user> with the user that started t
 	- HMaster: $HBASE_HOME/logs/hbase-<user>-master-<hostname>.log
 
 	- RegionServer: $HBASE_HOME/logs/hbase-<user>-regionserver-<hostname>.log
+	
+
+### YARN
+### YARN Resource Manager UI - Job monitoring
+<a name="yarn">
+
+The following URL provides documentation on job monitoring on YARN Resource Manager:
+https://docs.cloudera.com/documentation/enterprise/5-13-x/topics/cm_dg_yarn_applications.html#concept_vh1_jtj_gk
