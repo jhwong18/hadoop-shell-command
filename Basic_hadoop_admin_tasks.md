@@ -359,7 +359,7 @@ sudo service hbase-master restart
 
 #### Region Servers Health check
 <a name="regionservers">
-	
+
 
 To access to the HBase Master Web UI, ensure that your hbase-master service is running. Next, enter the following url:
 
@@ -367,10 +367,17 @@ To access to the HBase Master Web UI, ensure that your hbase-master service is r
 http://quickstart.cloudera:60010
 ```
 
+![HBase Web UI](image/hbase_web_ui.PNG)
+
+![HBase Heap Memory](image/hbase_heap_memory.PNG)
+
 The HBase Master web UI shows:
 
 - the number of requests per second being served by each of the RegionServers
 - the number of regions that are online on the RegionServers, and the used and max heap.
+
+
+![HBase Tables](image/hbase_table.PNG)
 
 
 This is a useful place to start when you’re trying to find out the state of the system. Often, you can find issues here when RegionServers have fallen over, aren’t balanced in terms of the regions and requests they’re serving, or are misconfigured to use less heap than you had planned to give them.
@@ -487,11 +494,11 @@ On the web GUI for Resource Manager,
 
 1) Click on the Cluster section. This shows the cluster ID, Resource Manager State, Resource Manager High Availability State
 
-![Monitor Cluster Health in YARN](image/YARN_jobs.png)
+![Monitor Jobs in YARN](image/YARN_jobs.png)
 
 2) When a (mapreduce) job is executed, the job can be viewed by clicking "application" section -> "Jobs" section. You can view the job ID, map state, reduce state and overall state if it is running.
 
-![Monitor Cluster Health in YARN](image/YARN_finished_failed_save.PNG)
+![Monitor Failed jobs in YARN](image/YARN_finished_failed_save.PNG)
 
 3) You can view all the completed jobs by clicking "cluster" section -> "application" section -> "FINISHED" section. 
 
@@ -510,7 +517,7 @@ The following URL provides documentation on job monitoring on YARN Resource Mana
 	
 From this Web GUI, we can access the log files, by clicking on the tools section and then the local logs link. We can access the following logs:
 
-![Monitor Cluster Health in YARN](image/YARN_logs.PNG)
+![Log files in YARN](image/YARN_logs.PNG)
 
 
 | Type of log | name | location |
