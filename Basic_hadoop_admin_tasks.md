@@ -1,5 +1,5 @@
 ## Hadoop Administrative tasks
-Basic Hadoop Administrative tasks and the corresponding commands.
+Basic Hadoop Administrative tasks for various services: Hadoop, HDFS, YARN, Flink, HBase, OpenTSDB.
 
 ### Table of Contents
 #### Hadoop Tasks
