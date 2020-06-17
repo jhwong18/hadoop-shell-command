@@ -2,35 +2,33 @@
 Basic Hadoop Administrative tasks for various services: Hadoop, HDFS, YARN, Flink, HBase, OpenTSDB.
 
 ### Table of Contents
-#### Hadoop Tasks
-
-##### Memory
-- [Maintain Disk free space in OS Space (Logs space and deleting old logs)](#OSspace)
-- [CPU Utilization](#cpu)
-- [Low Swap Space](#swap)
-- [HDFS disk space alert](#hdfs)
+##### Various Issues in Memory Storage
+- [How to maintain Disk Free Space in OS (Logs space and deleting old logs)](#OSspace)
+- [How to resolve high CPU Utilization](#cpu)
+- [How to resolve Low Swap Space](#swap)
+- [How to resolve low HDFS disk space alert](#hdfs)
 
 ##### HDFS / Hadoop
-- [Monitor Cluster Health in Hadoop](#hadoop)
+- [How to monitor Hadoop Cluster health](#hadoop)
 - [Finding log files in HDFS](#hdfslog)
-- [Handle Alerts & Warnings in Ambari](#alerts)
-- [Monitor Namenode UI](#namenode)
+- [How to monitor and handle Alerts & Warnings in Ambari](#alerts)
+- [Using Web UI to monitor NameNode](#namenode)
 
 
-##### Hbase
-- [Monitor Hbase Master UI](#hbase)
-- [Finding log files in OpenTSDB](#hbaselog)
-- [Region Servers Health check](#regionservers)
+##### HBase
+- [How to use Web UI to monitor Hbase Master](#hbase)
+- [Finding log files in HBase](#hbaselog)
+- [How to monitor Region Servers health](#regionservers)
 
 
 ##### OpenTSDB
-- [Monitor Stats and Data loading in OpenTSDB](#opentsdb)
+- [How to monitor Stats and Data loading in OpenTSDB](#opentsdb)
 - [Finding log files in OpenTSDB](#tsdblog)
-- [Check Connection between OpenTSDB and Hbase](#tsdbconnection)
+- [Check Connection/Latency between OpenTSDB and Hbase](#tsdbconnection)
 
 
 ##### YARN
-- [Yarn Resource Manager UI - Job monitoring](#yarn)
+- [Using web UI to monitor jobs in Yarn Resource Manager](#yarn)
 - [Finding log files in YARN](#yarnlog)
 - [Manage services on YARN via CLI](#yarncli)
 
@@ -44,8 +42,6 @@ Basic Hadoop Administrative tasks for various services: Hadoop, HDFS, YARN, Flin
 
 #### Basic Tasks
 - [Start, Stop, Restart Service](#restart)
-- [Get Admin report](#admin)
-
 
 
 
