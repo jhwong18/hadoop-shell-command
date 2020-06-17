@@ -9,10 +9,11 @@ Basic Hadoop Administrative tasks and the corresponding commands.
 - [CPU Utilization](#cpu)
 - [Memory Utilization](#memory)
 - [Low Swap Space](#swap)
-
+- [HDFS disk space alert](#hdfs)
 
 ##### Hadoop
 - [Monitor Cluster Health in Hadoop](#hadoop)
+- [Finding log files in HDFS](#hdfslog)
 - [Handle Alerts & Warnings in Ambari](#alerts)
 - [Monitor Namenode UI](#namenode)
 
@@ -31,14 +32,11 @@ Basic Hadoop Administrative tasks and the corresponding commands.
 
 ##### YARN
 - [Yarn Resource Manager UI - Job monitoring](#yarn)
-- [Yarn Administration](#yarnadmin)
+- [Finding log files in YARN](#yarnlog)
 - [Manage services on YARN via CLI](#yarncli)
 
 ##### Flink
 - [Flink Dashboard - Flink jobs monitoring](#flink)
-
-##### HDFS
-- [HDFS disk space alert](#hdfs)
 
 
 #### Basic Tasks
@@ -221,23 +219,188 @@ cat /proc/swaps   # check if newly added swap file is now available
 ```
 
 
+### HDFS disk space alert
+<a name="hdfs">
 
-
-### Start, Stop, Restart Service
-<a name="restart">
-
-To list all the services, use the following command:
+To check the disk space in HDFS, run the following commands: 
 
 ```
-ls /etc/init.d
+hdfs dfs -df -h / 
+hdfs dfs -du -s -h /
+```
+
+Alternatively, use dfsadmin for disk free command
+
+```
+hdfs dfsadmin -report
+```
+
+If there is insufficient disk space space in HDFS, you can remove files in HDFS or increase the spaceQuota in a particular directory.
+To remove files in HDFS:
+
+```
+hadoop fs -rm <filename in HDFS>
+hadoop fs -rm <filename in HDFS>
+hadoop fs -rm /tmp/* # Remove all files in /tmp folder 
+hadoop fs -rm /tmp/*.txt  # Remove all files in specific extension
+```
+
+
+You can also set the spaceQuota or file count Quota, or check status of the quotas in a directory
+
+```
+hdfs dfs -setQuota <#num> <dir>
+hdfs dfs -setSpaceQuota <#space> <dir>
+hdfs dfs -clrSpaceQuota <dir>
+hdfs dfs -count -q <dir>"
+```
+
+### Hadoop
+<a name="hadoop">
+	
+### Monitor Cluster Health in Hadoop
+Monitoring of Hadoop clusters can be done in 3 ways:
+	- Using Web UI on Apache Hadoop
+		- Namenode: http://quickstart.cloudera:50070/dfshealth.html#tab-overview 
+		- Secondary Namenode: http://quickstart.cloudera:50090/status.html
+	
+	- Using Web UI on Ambari
+		- http://[YOUR_AMBARI_SERVER_FQDN]:8080
+	
+	- Hadoop hdfs commands 
+
+
+**Using Web UI on Apache Hadoop**
+### Monitor Namenode UI
+<a name="namenode">
+	
+On the overview of the Namenode URL, you can monitor the following metrics:
+
+	- Heap Memory Used/Available/Maximum
+	- Number of files and directories, Number of blocks
+	- Capacity, Disk Free Space used/remaining
+	- Number of Live/Dead nodes
+	- Storage directory
+	- Datanode (datanode name, admin state, capacity, DFS, failed volumes)
+
+On the Seocndary Namenode URL, you can monitor the following metrics:
+	- Last checkpoint
+	- Namenode Address
+	- Checkpoint Image URI
+	- Checkpoint Editlog URI
+
+
+**Using Web UI on Ambari**
+### Handle Alerts & Warnings in Ambari
+<a name="alerts">
+The following link contains the resources to monitor HDFS, YARN, HBase using Ambari Web UI. 
+https://docs.cloudera.com/HDPDocuments/Ambari-2.7.5.0/managing-and-monitoring-ambari/content/amb_access_ambari_web.html
+https://docs.cloudera.com/HDPDocuments/Ambari-2.7.1.0/managing-and-monitoring-ambari/amb_managing_and_monitoring_hadoop_cluster.pdf	
+	
+
+
+**Hadoop hdfs commands**
+
+The first step is to check dfsadmin report for HDFS cluster overall status and each namenode/datanode status.
+
+```
+hdfs dfsadmin -report
+```
+
+Optionally, you can monitor using the Namenode, Datanode Web Ui Check and check datanode failure volume
+
+```
+http://<namenode ip>://50070.html#tab-overview
+```
+
+The next step is to check that we can read and write status successfully in HDFS
+
+```
+hdfs dfs -put <local file> <dir in hdfs>
+hdfs dfs -cat <file in hdfs>
+```
+
+The last step is to check via fsck that system is healthy and ensure that the log file in filesystem under path / is HEALTHY.
+
+```
+hdfs fsck / -files -blocks -locations >dfs-fsck.log
+```
+
+
+### Log files in HDFS
+<a name="hdfslog">
+	
+From this Apache Hadoop UI, we can access the log files, by clicking on the 'utilities' section -> 'logs' section.
+
+Alternatively, the log files are available in the folder `/var/log/hadoop-hdfs/`. The list of log files are:
+
+	- Datanode: `hadoop-hdfs-datanode-quickstart.cloudera.log`
+	- Journalnode: `hadoop-hdfs-journalnode-quickstart.cloudera.log`
+	- Namenode: `hadoop-hdfs-namenode-quickstart.cloudera.log`
+	- Secondary Namenode: `hadoop-hdfs-secondarynamenode-quickstart.cloudera.log`
+
+
+
+
+
+### Hbase
+<a name="hbase">
+
+### To start, stop, restart services
+
+```
+sudo service hadoop-hbase-regionserver stop
+sudo service hadoop-hbase-regionserver start
+sudo service hadoop-hbase-regionserver restart
 ```
 
 ```
-sudo service <name of service> start
-sudo service <name of service> stop
-sudo service <name of service> restart
+sudo service hbase-master stop
+sudo service hbase-master start
+sudo service hbase-master restart
 ```
 
+### Monitor Hbase Master Web UI
+### Region Servers Health check
+<a name="regionservers">
+	
+
+To access to the HBase Master Web UI, ensure that your hbase-master service is running. Next, enter the following url:
+
+```
+http://quickstart.cloudera:60010
+```
+
+The HBase Master web UI shows:
+	- the number of requests per second being served by each of the RegionServers
+	- the number of regions that are online on the RegionServers, and the used and max heap.
+
+This is a useful place to start when you’re trying to find out the state of the system. Often, you can find issues here when RegionServers have fallen over, aren’t balanced in terms of the regions and requests they’re serving, or are misconfigured to use less heap than you had planned to give them.
+
+
+
+### Finding log files in HBase
+
+From this Master Web UI, we can access the log files, by clicking on the logs section and open the log file `var/log/hbase/hbase-hbase-master-quickstart.cloudera.log`. Alternatively, you can access the logs file via
+`var/log/hbase/hbase-hbase-master-quickstart.cloudera.log` (for HMaster)
+
+
+The key process logs are as follows (replace <user> with the user that started the service, and <hostname> for the machine name)
+
+	- NameNode: $HADOOP_HOME/logs/hadoop-<user>-namenode-<hostname>.log
+
+	- DataNode: $HADOOP_HOME/logs/hadoop-<user>-datanode-<hostname>.log
+
+	- JobTracker: $HADOOP_HOME/logs/hadoop-<user>-jobtracker-<hostname>.log
+
+	- TaskTracker: $HADOOP_HOME/logs/hadoop-<user>-tasktracker-<hostname>.log
+ 
+	- HMaster: $HBASE_HOME/logs/hbase-<user>-master-<hostname>.log
+
+	- RegionServer: $HBASE_HOME/logs/hbase-<user>-regionserver-<hostname>.log
+	
+	
+	
 
 ### OpenTSDB
 ### Monitor Stats and Data loading in OpenTSDB
@@ -304,67 +467,39 @@ Tuning of OpenTSDB for HBase Storage. These are parameters to look at for using 
   More details on the tuning of OpenTSDB database is available in the documentation url:
   http://opentsdb.net/docs/build/html/user_guide/tuning.html
   
-  
-### Hbase
-<a name="hbase">
-
-### To start, stop, restart services
-
-```
-sudo service hadoop-hbase-regionserver stop
-sudo service hadoop-hbase-regionserver start
-sudo service hadoop-hbase-regionserver restart
-```
-
-```
-sudo service hbase-master stop
-sudo service hbase-master start
-sudo service hbase-master restart
-```
-
-### Monitor Hbase Master Web UI
-### Region Servers Health check
-<a name="regionservers">
-	
-
-To access to the HBase Master Web UI, ensure that your hbase-master service is running. Next, enter the following url:
-
-```
-http://quickstart.cloudera:60010
-```
-
-The HBase Master web UI shows:
-	- the number of requests per second being served by each of the RegionServers
-	- the number of regions that are online on the RegionServers, and the used and max heap.
-
-This is a useful place to start when you’re trying to find out the state of the system. Often, you can find issues here when RegionServers have fallen over, aren’t balanced in terms of the regions and requests they’re serving, or are misconfigured to use less heap than you had planned to give them.
-
-
-
-### Finding log files in HBase
-
-From this Master Web UI, we can access the log files, by clicking on the logs section and open the log file `var/log/hbase/hbase-hbase-master-quickstart.cloudera.log`. Alternatively, you can access the logs file via
-`var/log/hbase/hbase-hbase-master-quickstart.cloudera.log` (for HMaster)
-
-
-The key process logs are as follows (replace <user> with the user that started the service, and <hostname> for the machine name)
-
-	- NameNode: $HADOOP_HOME/logs/hadoop-<user>-namenode-<hostname>.log
-
-	- DataNode: $HADOOP_HOME/logs/hadoop-<user>-datanode-<hostname>.log
-
-	- JobTracker: $HADOOP_HOME/logs/hadoop-<user>-jobtracker-<hostname>.log
-
-	- TaskTracker: $HADOOP_HOME/logs/hadoop-<user>-tasktracker-<hostname>.log
- 
-	- HMaster: $HBASE_HOME/logs/hbase-<user>-master-<hostname>.log
-
-	- RegionServer: $HBASE_HOME/logs/hbase-<user>-regionserver-<hostname>.log
 	
 
 ### YARN
 ### YARN Resource Manager UI - Job monitoring
 <a name="yarn">
+
+There are 2 web GUI for YARN:
+	- YARN Resource Manager: http://quickstart.cloudera:8088/cluster
+	- YARN Node Manager:  http://quickstart.cloudera:8042/node
+
+On the web GUI for Resource Manager,
+
+	- 1) Click on the Cluster section. This shows the cluster ID, Resource Manager State, Resource Manager High Availability State
+	- 2) When a (mapreduce) job is executed, the job can be viewed by clicking "application" section -> "Jobs" section. You can view the job ID, map state, reduce state and overall state if it is running.
+	- 3) You can view all the completed jobs by clicking "cluster" section -> "application" section -> "FINISHED" section. 
+	- 4) You can also monitor jobs with other status: killed, failed, running, accepted. 
+	- 5) You can also monitor scheduler by clicking on "cluster" section -> "scheduler" section. This shows you the details on used, available capacity and queue status.
+
+
+The following URL provides documentation on job monitoring on YARN Resource Manager:
+https://hadooptutorial.info/yarn-web-ui/
+
+### Finding log files in YARN
+<a name="yarnlog">
+	
+From this Web GUI, we can access the log files, by clicking on the tools section and then the local logs link. We can access the following logs:
+	
+| Type of log | name | location |
+| :---: | :---: | :---: |
+| node manager | yarn-yarn-nodemanager-quickstart.cloudera.log | var/log/hadoop-yarn/ | 
+| proxy server | yarn-yarn-proxyserver-quickstart.cloudera.log | var/log/hadoop-yarn/ | 
+| resource manager | yarn-yarn-resourcemanager-quickstart.cloudera.log | var/log/hadoop-yarn/ | 
+
 
 The following URL provides documentation on job monitoring on YARN Resource Manager:
 https://docs.cloudera.com/documentation/enterprise/5-13-x/topics/cm_dg_yarn_applications.html#concept_vh1_jtj_gk
@@ -372,6 +507,15 @@ https://docs.cloudera.com/documentation/enterprise/5-13-x/topics/cm_dg_yarn_appl
 
 ### Manage services on YARN via CLI
 <a name="yarncli">
+
+**To start, stop, restart YARN** 
+
+```
+sudo service hadoop-yarn-resourcemanager start
+sudo service hadoop-yarn-nodemanager start
+sudo service hadoop-yarn-proxyserver start
+```
+
 
 **Deploy a service**
 
@@ -415,4 +559,28 @@ In addition to stopping a service, it also deletes the service root folder on hd
 
 ```
 yarn app -destroy ${SERVICE_NAME}
+```
+
+
+### Flink
+<a name="flink">
+
+The following URL provides documentation on monitoring of jobs using Flink Web Dashboard:
+https://flink.apache.org/news/2019/02/25/monitoring-best-practices.html
+
+
+### Basic Tasks
+### Start, Stop, Restart Service
+<a name="restart">
+
+To list all the services, use the following command:
+
+```
+ls /etc/init.d
+```
+
+```
+sudo service <name of service> start
+sudo service <name of service> stop
+sudo service <name of service> restart
 ```
