@@ -285,11 +285,17 @@ kill
 hostname command in Linux is used to obtain the DNS(Domain Name System) name and set the system’s hostname or NIS(Network Information System) domain name. A hostname is a name which is given to a computer and it attached to the network. Its main purpose is to uniquely identify over a network.
   
 -a : This option is used to get alias name of the host system(if any).
+
 -A : This option is used to get all FQDNs(Fully Qualified Domain Name) of the host system.
+
 -b : Used to always set a hostname. Default name is used if none specified
+
 -d : This option is used to get the Domain if local domains are set. It will not return anything(not even a blank line) if no local domain is set.
+
 -f : This option is used to get the Fully Qualified Domain Name(FQDN). It contains short hostname and DNS domain name
+
 -F : This option is used to set the hostname specified in a file. Can be performed by the superuser(root) only.
+
 -i option:This option is used to get the IP(network) addresses
 
 ```
@@ -310,30 +316,32 @@ sudo hostname NEW_HOSTNAME
 free command which displays the total amount of free space available along with the amount of memory used and swap memory in the system, and also the buffers used by the kernel.
 
 
-When no option is used then free command produces the columnar output as shown above where column:
-
-total displays the total installed memory (MemTotal and SwapTotal i.e present in /proc/meminfo).
-used displays the used memory.
-free displays the unused memory.
-shared displays the memory used by tmpfs(Shmen i.epresent in /proc/meminfo and displays zero in case not available).
-buffers displays the memory used by kernel buffers.
-cached displays the memory used by the page cache and slabs(Cached and Slab available in /proc/meminfo).
-buffers/cache displays the sum of buffers and cache.
 
 -b, – -bytes : It displays the memory in bytes.
--k, – -kilo : It displays the amount of memory in kilobytes(default).
--m, – -mega : It displays the amount of memory in megabytes.
--g, – -giga : It displays the amount of memory in gigabytes.
-– – tera : It displays the amount of memory in terabytes.
--h, – -human : It shows all output columns automatically scaled to shortest three digit unit and display the units also of print out. The units used are B(bytes), K(kilos), M(megas), G(gigas), and T(teras).
--c, – -count : It displays the output c number of times and this option actually works with -s option.
--l, – -lohi : It shows the detailed low and high memory statistics
--o, – -old : This option disables the display of the buffer adjusted line.
--s, – -seconds : This option allows you to display the output continuously after s seconds delay. In actual, the usleepsystem call is used for microsecond resolution delay times.
--t, – -total : It adds an additional line in the output showing the column totals.
-– -help : It displays a help message and exit.
--V, – -version : It displays version info and exit.
 
+-k, – -kilo : It displays the amount of memory in kilobytes(default).
+
+-m, – -mega : It displays the amount of memory in megabytes.
+
+-g, – -giga : It displays the amount of memory in gigabytes.
+
+– – tera : It displays the amount of memory in terabytes.
+
+-h, – -human : It shows all output columns automatically scaled to shortest three digit unit and display the units also of print out. The units used are B(bytes), K(kilos), M(megas), G(gigas), and T(teras).
+
+-c, – -count : It displays the output c number of times and this option actually works with -s option.
+
+-l, – -lohi : It shows the detailed low and high memory statistics
+
+-o, – -old : This option disables the display of the buffer adjusted line.
+
+-s, – -seconds : This option allows you to display the output continuously after s seconds delay. In actual, the usleepsystem call is used for microsecond resolution delay times.
+
+-t, – -total : It adds an additional line in the output showing the column totals.
+
+– -help : It displays a help message and exit.
+
+-V, – -version : It displays version info and exit.
 
 ```
 free
