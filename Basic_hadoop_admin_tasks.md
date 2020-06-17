@@ -49,10 +49,10 @@ Basic Hadoop Administrative tasks for various services: Hadoop, HDFS, YARN, Flin
 <a name="OSspace">
 With the usage of Hadoop platforms and services, various issues regarding lack of memory space may occur in the servers:
 	
-	- Logical Disk Free space is too low
-	- Swap memory (space) is too low
-	- CPU Utilization is too high
-	- Used memory is too high (Low RAM available)
+- Logical Disk Free space is too low
+- Swap memory (space) is too low
+- CPU Utilization is too high
+- Used memory is too high (Low RAM available)
   
 Logical Disk Free Space is too low is due to the lack of free space in either of the following folders:
 	
