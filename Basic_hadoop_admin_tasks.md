@@ -7,11 +7,10 @@ Basic Hadoop Administrative tasks and the corresponding commands.
 ##### Memory
 - [Maintain Disk free space in OS Space (Logs space and deleting old logs)](#OSspace)
 - [CPU Utilization](#cpu)
-- [Memory Utilization](#memory)
 - [Low Swap Space](#swap)
 - [HDFS disk space alert](#hdfs)
 
-##### Hadoop
+##### HDFS / Hadoop
 - [Monitor Cluster Health in Hadoop](#hadoop)
 - [Finding log files in HDFS](#hdfslog)
 - [Handle Alerts & Warnings in Ambari](#alerts)
@@ -259,7 +258,7 @@ hdfs dfs -clrSpaceQuota <dir>
 hdfs dfs -count -q <dir>"
 ```
 
-### Hadoop
+### HDFS / Hadoop
 <a name="hadoop">
 	
 ### Monitor Cluster Health in Hadoop
