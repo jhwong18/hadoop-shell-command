@@ -39,6 +39,23 @@ Basic Hadoop Administrative tasks and the corresponding commands.
 - [Flink Dashboard - Flink jobs monitoring](#flink)
 
 
+##### Phoenix
+- [Monitoring Metrics in Phoenix](#phoenix) 
+
+Phoenix has various metrics that provide an insight into what is going on within the Phoenix client as it is executing various SQL statements. These metrics are collected within the client JVM in two ways:
+	- Request level metrics - collected at an individual SQL statement level
+	- Global metrics - collected at the client JVM level
+
+Request level metrics are helpful for figuring out at a more granular level about the amount of work done by every SQL statement executed by Phoenix. These metrics can be classified into three categories:
+
+	- Mutation Metrics
+	- Scan Task Metrics
+	- Overall Query Metrics
+
+More details on the metrics in Phoenix can be found in the following URL:
+http://phoenix.apache.org/metrics.html
+
+
 #### Basic Tasks
 - [Start, Stop, Restart Service](#restart)
 - [Get Admin report](#admin)
